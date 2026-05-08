@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:
+  radial-gradient(circle at top left,#1e3a8a,transparent 30%),
+  radial-gradient(circle at bottom right,#7c3aed,transparent 30%),
+  linear-gradient(135deg,#0f172a,#111827,#1e293b);
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(#6366f1,#8b5cf6);
+  border-radius:20px;
+}
+
+/* Container */
+.wrap{
+  width:100%;
+  max-width:1450px;
+  margin:auto;
+  padding:30px 20px 60px;
+}
+
+/* Accessibility */
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+/* Title */
+.page-title{
+  font-size:clamp(2rem,5vw,4rem);
+  font-weight:700;
+  text-align:center;
+  line-height:1.2;
+  margin-bottom:12px;
+  background:linear-gradient(to right,#60a5fa,#a78bfa,#f472b6);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:fadeDown 1s ease;
+}
+
+.page-sub{
+  text-align:center;
+  color:#cbd5e1;
+  margin-bottom:35px;
+  font-size:clamp(0.95rem,2vw,1.1rem);
+  animation:fadeUp 1s ease;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:40px;
+  position:sticky;
+  top:10px;
+  z-index:100;
+  padding:10px;
+  border-radius:22px;
+  backdrop-filter:blur(12px);
+}
+
+.tab{
+  padding:12px 22px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  color:#fff;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  transition:all 0.35s ease;
+  backdrop-filter:blur(10px);
+  min-width:170px;
+}
+
+.tab:hover{
+  transform:translateY(-3px);
+  background:#6366f1;
+  box-shadow:0 10px 25px rgba(99,102,241,0.45);
+}
+
+.tab.active{
+  background:linear-gradient(to right,#6366f1,#8b5cf6);
+  box-shadow:0 10px 30px rgba(99,102,241,0.45);
+}
+
+/* Sections */
+.section{
+  display:none;
+  animation:fade 0.5s ease;
+}
+
+.section.active{
+  display:block;
+}
+
+/* Headings */
+h3{
+  margin:35px 0 18px;
+  font-size:clamp(1.1rem,3vw,1.5rem);
+  color:#93c5fd;
+  letter-spacing:1px;
+}
+
+/* Ribbon Row */
+.ribbon-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:20px;
+}
+
+/* Cards */
+.card{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:22px;
+  backdrop-filter:blur(14px);
+  transition:0.4s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  width:150%;
+  height:150%;
+  background:linear-gradient(
+    45deg,
+    transparent,
+    rgba(255,255,255,0.05),
+    transparent
+  );
+  top:-120%;
+  left:-120%;
+  transform:rotate(25deg);
+  transition:0.8s;
+}
+
+.card:hover::before{
+  top:100%;
+  left:100%;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(99,102,241,0.5);
+  box-shadow:0 18px 35px rgba(0,0,0,0.4);
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:1.1rem;
+  font-weight:600;
+  margin-bottom:15px;
+  flex-wrap:wrap;
+}
+
+.card-body{
+  color:#d1d5db;
+  line-height:1.9;
+  font-size:15px;
+  word-wrap:break-word;
+}
+
+/* Icons */
+.tool-icon{
+  width:52px;
+  height:52px;
+  min-width:52px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  background:rgba(255,255,255,0.1);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Badges */
+.badge{
+  padding:6px 12px;
+  border-radius:50px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.badge-blue{
+  background:#2563eb;
+}
+
+.badge-green{
+  background:#059669;
+}
+
+.badge-amber{
+  background:#d97706;
+}
+
+.badge-red{
+  background:#dc2626;
+}
+
+.badge-purple{
+  background:#7c3aed;
+}
+
+/* Shortcut Grid */
+.shortcut-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:15px;
+}
+
+.sk-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:0.3s ease;
+}
+
+.sk-row:hover{
+  transform:scale(1.03);
+  background:rgba(99,102,241,0.2);
+}
+
+.sk-key{
+  background:#111827;
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:12px;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.sk-desc{
+  color:#e5e7eb;
+  font-size:14px;
+}
+
+/* Table */
+.ext-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px;
+}
+
+.ext-table th{
+  background:#4f46e5;
+  padding:16px;
+  text-align:left;
+  font-size:14px;
+}
+
+.ext-table td{
+  padding:16px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  color:#e5e7eb;
+  line-height:1.8;
+  font-size:14px;
+}
+
+.ext-table tr:hover{
+  background:rgba(255,255,255,0.05);
+}
+
+.ext-code{
+  color:#60a5fa;
+  font-weight:600;
+}
+
+/* Inline Code */
+code{
+  background:rgba(255,255,255,0.08);
+  padding:3px 8px;
+  border-radius:8px;
+  color:#93c5fd;
+  word-break:break-word;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:992px){
+
+  .wrap{
+    padding:24px 18px 50px;
+  }
+
+  .card{
+    padding:20px;
+  }
+
+  .shortcut-grid{
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+  .wrap{
+    padding:20px 14px 40px;
+  }
+
+  .tabs{
+    top:0;
+    gap:10px;
+    border-radius:0 0 20px 20px;
+  }
+
+  .tab{
+    width:100%;
+    min-width:unset;
+    text-align:center;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:20px;
+  }
+
+  .card-title{
+    font-size:1rem;
+    gap:10px;
+  }
+
+  .card-body{
+    font-size:14px;
+    line-height:1.8;
+  }
+
+  .shortcut-grid{
+    grid-template-columns:1fr;
+  }
+
+  .ribbon-row{
+    grid-template-columns:1fr;
+  }
+
+  .tool-icon{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    font-size:20px;
+  }
+
+  .ext-table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media(max-width:480px){
+
+  .page-title{
+    font-size:1.8rem;
+  }
+
+  .page-sub{
+    font-size:0.9rem;
+  }
+
+  .card{
+    padding:16px;
+  }
+
+  .card-body{
+    font-size:13.5px;
+  }
+
+  .sk-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .sk-key{
+    font-size:11px;
+  }
+
+  .ext-table th,
+  .ext-table td{
+    padding:12px;
+    font-size:13px;
+  }
+}
+
+/* Animations */
+@keyframes fade{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeDown{
+  from{
+    opacity:0;
+    transform:translateY(-40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+</style>
+<script>
+function showTab(id){
+
+  document.querySelectorAll('.section').forEach(section=>{
+    section.classList.remove('active');
+  });
+
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.classList.remove('active');
+  });
+
+  document.getElementById(id).classList.add('active');
+
+  event.target.classList.add('active');
+
+  window.scrollTo({
+    top:140,
+    behavior:'smooth'
+  });
+
+}
+</script>
+</head>
+<body>
+  
+<div class="wrap">
+  <h2 class="sr-only">Complete WordPad notes including features, shortcuts, file extensions and tips</h2>
+  <p class="page-title">📝 WordPad — Complete Notes</p>
+  <p class="page-sub">Features · Shortcuts · File Extensions · Tips & Overview</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('features')">🧰 Features & Tools</button>
+    <button class="tab" onclick="showTab('shortcuts')">⌨️ Shortcuts</button>
+    <button class="tab" onclick="showTab('extensions')">📁 Extensions</button>
+    <button class="tab" onclick="showTab('overview')">📋 Overview</button>
+  </div>
+
+  <!-- FEATURES -->
+  <div id="features" class="section active">
+
+    <h3>Home Tab — Clipboard Group</h3>
+    <div class="ribbon-row">
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">📋</div> Paste <span class="badge badge-blue">Ctrl+V</span></div>
+        <div class="card-body">Pastes text, images, or objects from the clipboard. Supports "Paste special" to paste as plain text, removing formatting from copied content.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">✂️</div> Cut / Copy <span class="badge badge-amber">Ctrl+X/C</span></div>
+        <div class="card-body">Cut removes selected content and places it on the clipboard. Copy duplicates it. Works with text, images, and embedded objects.</div>
+      </div>
+    </div>
+
+    <h3>Home Tab — Font Group</h3>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">🔤</div> Font Family & Size <span class="badge badge-blue">Formatting</span></div>
+      <div class="card-body">Choose from all installed system fonts using the Font Name dropdown. Set size in points (pt) from the Font Size box. You can type any size directly into the box and press Enter. Supports sizes from 1pt to 1638pt.</div>
+    </div>
+    <div class="ribbon-row">
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">B</div> Bold <span class="badge badge-green">Ctrl+B</span></div>
+        <div class="card-body">Makes selected text <strong>bold</strong>. Toggle on/off. Used for headings, emphasis, or key terms.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4"><em>I</em></div> Italic <span class="badge badge-green">Ctrl+I</span></div>
+        <div class="card-body">Makes selected text <em>italic</em>. Used for titles of works, foreign words, or soft emphasis.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4"><u>U</u></div> Underline <span class="badge badge-green">Ctrl+U</span></div>
+        <div class="card-body">Underlines selected text. Traditionally used for hyperlinks or important terms in printed documents.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">S̶</div> Strikethrough <span class="badge badge-amber">Formatting</span></div>
+        <div class="card-body">Draws a horizontal line through selected text. Used to show deleted or revised content (e.g. ~~old price~~).</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#F4EEFE">X²</div> Subscript / Superscript <span class="badge badge-purple">Formatting</span></div>
+        <div class="card-body">Subscript lowers text below baseline (H₂O). Superscript raises it above (x²). Accessed from the Font group buttons.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">🎨</div> Font Color / Highlight <span class="badge badge-amber">Color</span></div>
+        <div class="card-body">Font Color changes the text color. Text Highlight Color applies a colored background behind text — like a marker pen. Both use a color picker.</div>
+      </div>
+    </div>
+
+    <h3>Home Tab — Paragraph Group</h3>
+    <div class="ribbon-row">
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">≡</div> Alignment <span class="badge badge-blue">Layout</span></div>
+        <div class="card-body">Left-align (Ctrl+L), Center (Ctrl+E), Right-align (Ctrl+R), Justify (Ctrl+J) — spreads text evenly across the line width.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">☰</div> Line Spacing <span class="badge badge-green">Spacing</span></div>
+        <div class="card-body">Sets single, 1.5×, or double line spacing. Also allows custom spacing before/after paragraphs for cleaner document layout.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">• ≡</div> Bullets <span class="badge badge-amber">List</span></div>
+        <div class="card-body">Inserts a bulleted (unordered) list. Each Enter creates a new bullet point. Press Enter twice to exit the list. WordPad does not support numbered lists natively.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#F4EEFE">⇥</div> Indent <span class="badge badge-purple">Layout</span></div>
+        <div class="card-body">Increase Indent (Tab key or button) and Decrease Indent shift paragraph indentation. Useful for nested content or quoted passages.</div>
+      </div>
+    </div>
+
+    <h3>Home Tab — Insert Group</h3>
+    <div class="ribbon-row">
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">📅</div> Date & Time <span class="badge badge-blue">Insert</span></div>
+        <div class="card-body">Inserts the current date and/or time in various formats (e.g. 08 May 2026, 2026-05-08, 14:35:00). Useful for letters and memos. Inserts as static text — it does not auto-update.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">🖼️</div> Picture / Object <span class="badge badge-green">Insert</span></div>
+        <div class="card-body">Insert Picture embeds an image file (PNG, JPG, BMP). Insert Object embeds OLE objects like Paint drawings, Excel charts, or other Windows objects.</div>
+      </div>
+    </div>
+
+    <h3>View Tab</h3>
+    <div class="ribbon-row">
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">📏</div> Ruler <span class="badge badge-amber">View</span></div>
+        <div class="card-body">Shows a horizontal ruler at the top of the document. Used to set tab stops and check paragraph indentation. Toggle via View → Ruler.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">🔍</div> Zoom <span class="badge badge-blue">View</span></div>
+        <div class="card-body">Zoom In / Zoom Out buttons adjust the view magnification. Does not change the actual document — only how large it appears on screen.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#F4EEFE">📐</div> Word Wrap <span class="badge badge-purple">View</span></div>
+        <div class="card-body">Sets how text wraps: No wrap (horizontal scroll), Wrap to window (fills the screen), or Wrap to ruler (wraps at the set page width). Found in View → Word wrap.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">🔧</div> Measurement Units <span class="badge badge-green">View</span></div>
+        <div class="card-body">View → Units lets you switch the ruler and spacing measurements between Inches, Centimetres, Points, and Picas.</div>
+      </div>
+    </div>
+
+    <h3>Find, Replace & Print</h3>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">🔎</div> Find & Replace <span class="badge badge-blue">Ctrl+H</span></div>
+      <div class="card-body">Find (Ctrl+F) searches the document for a word or phrase. Replace (Ctrl+H) finds a term and replaces it with another. Supports Match case option. Does not support regex.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">🖨️</div> Print & Print Preview <span class="badge badge-green">Ctrl+P</span></div>
+      <div class="card-body">Print (Ctrl+P) opens the printer dialog. Print Preview (in older versions via File menu) shows how the document will look when printed. Page Setup controls margins, orientation (portrait/landscape), and paper size.</div>
+    </div>
+  </div>
+
+  <!-- SHORTCUTS -->
+  <div id="shortcuts" class="section">
+    <h3>File Operations</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + N</span><span class="sk-desc">New document</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + O</span><span class="sk-desc">Open file</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + S</span><span class="sk-desc">Save document</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + S</span><span class="sk-desc">Save As (different format)</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + P</span><span class="sk-desc">Print document</span></div>
+      <div class="sk-row"><span class="sk-key">Alt + F4</span><span class="sk-desc">Close WordPad</span></div>
+    </div>
+    <h3>Editing</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + Z</span><span class="sk-desc">Undo</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Y</span><span class="sk-desc">Redo</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + X</span><span class="sk-desc">Cut selected text</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + C</span><span class="sk-desc">Copy selected text</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + V</span><span class="sk-desc">Paste</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + A</span><span class="sk-desc">Select all text</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + F</span><span class="sk-desc">Find text</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + H</span><span class="sk-desc">Find and Replace</span></div>
+      <div class="sk-row"><span class="sk-key">Delete</span><span class="sk-desc">Delete character/selection</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Delete</span><span class="sk-desc">Delete next word</span></div>
+      <div class="sk-row"><span class="sk-key">Backspace</span><span class="sk-desc">Delete previous character</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Backspace</span><span class="sk-desc">Delete previous word</span></div>
+    </div>
+    <h3>Text Formatting</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + B</span><span class="sk-desc">Bold</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + I</span><span class="sk-desc">Italic</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + U</span><span class="sk-desc">Underline</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + =</span><span class="sk-desc">Subscript</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + =</span><span class="sk-desc">Superscript</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + &gt;</span><span class="sk-desc">Increase font size</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + &lt;</span><span class="sk-desc">Decrease font size</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Space</span><span class="sk-desc">Remove character formatting</span></div>
+    </div>
+    <h3>Paragraph Alignment</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + L</span><span class="sk-desc">Align left</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + E</span><span class="sk-desc">Center</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + R</span><span class="sk-desc">Align right</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + J</span><span class="sk-desc">Justify text</span></div>
+      <div class="sk-row"><span class="sk-key">Tab</span><span class="sk-desc">Increase indent / tab stop</span></div>
+      <div class="sk-row"><span class="sk-key">Shift + Tab</span><span class="sk-desc">Decrease indent</span></div>
+    </div>
+    <h3>Navigation</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + Home</span><span class="sk-desc">Go to start of document</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + End</span><span class="sk-desc">Go to end of document</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + ← / →</span><span class="sk-desc">Move word by word</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + ↑ / ↓</span><span class="sk-desc">Move paragraph by paragraph</span></div>
+      <div class="sk-row"><span class="sk-key">Home / End</span><span class="sk-desc">Start / end of line</span></div>
+      <div class="sk-row"><span class="sk-key">PgUp / PgDn</span><span class="sk-desc">Scroll up/down one page</span></div>
+    </div>
+    <h3>Selection Shortcuts</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Shift + ← / →</span><span class="sk-desc">Select character by character</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + ← / →</span><span class="sk-desc">Select word by word</span></div>
+      <div class="sk-row"><span class="sk-key">Shift + Home / End</span><span class="sk-desc">Select to start/end of line</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + Home/End</span><span class="sk-desc">Select to start/end of doc</span></div>
+      <div class="sk-row"><span class="sk-key">Shift + Click</span><span class="sk-desc">Select range to click point</span></div>
+      <div class="sk-row"><span class="sk-key">Double-click word</span><span class="sk-desc">Select entire word</span></div>
+      <div class="sk-row"><span class="sk-key">Triple-click</span><span class="sk-desc">Select entire paragraph</span></div>
+    </div>
+  </div>
+
+  <!-- EXTENSIONS -->
+  <div id="extensions" class="section">
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <table class="ext-table">
+        <thead>
+          <tr>
+            <th>Extension</th>
+            <th>Full Form</th>
+            <th>Description & Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="ext-code">.rtf</span></td>
+            <td>Rich Text Format</td>
+            <td>WordPad's default save format. Stores text with full formatting — fonts, colors, bold/italic, alignment, and embedded images. Compatible with most word processors. Recommended for formatted documents.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.docx</span></td>
+            <td>Office Open XML Document</td>
+            <td>Microsoft Word format. WordPad can open and save .docx files but with limited fidelity — complex formatting like tables, styles, and headers may be lost. Good for basic Word compatibility.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.doc</span></td>
+            <td>Word 97–2003 Document</td>
+            <td>Older Microsoft Word binary format. WordPad can open .doc files (read support). Saving as .doc is available in older Windows versions. Less reliable than .rtf for WordPad use.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.txt</span></td>
+            <td>Plain Text File</td>
+            <td>Saves text with no formatting — no fonts, no bold, no colors. Universal compatibility. Use when you want the text content only, for sharing across all platforms and devices.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.odt</span></td>
+            <td>OpenDocument Text</td>
+            <td>Open-source format used by LibreOffice and OpenOffice. WordPad (Windows 7 and later) can open .odt files with basic formatting support. Useful for cross-platform document exchange.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.log</span></td>
+            <td>Log File</td>
+            <td>Plain-text log format. WordPad can open .log files. Commonly used for system logs, application outputs, and event records. Same as .txt internally but used by convention for logs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">💡 Which format to use?</div>
+      <div class="card-body">
+        <strong>Everyday formatted doc → .RTF</strong> — safest native format, preserves all WordPad formatting.<br>
+        <strong>Sharing with Word users → .DOCX</strong> — widely accepted, but save simple documents only.<br>
+        <strong>Plain content, universal sharing → .TXT</strong> — stripped of formatting, opens anywhere.<br>
+        <strong>LibreOffice/OpenOffice users → .ODT</strong> — open standard, good cross-platform choice.<br><br>
+        ⚠️ Avoid saving complex .docx files in WordPad — tables, tracked changes, and styles will be lost.
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="overview" class="section">
+    <div class="card">
+      <div class="card-title">📌 What is WordPad?</div>
+      <div class="card-body">WordPad (<code>wordpad.exe</code>) is a free, basic word processor built into Windows since Windows 95. It sits between Notepad (plain text only) and Microsoft Word (full-featured). It supports rich text formatting, embedded images, and OLE objects — but lacks advanced features like tables, spelling check, macros, or tracked changes.<br><br>Access it via: Start → Search → <strong>"WordPad"</strong>, or Run dialog → <code>write</code> (legacy command).<br><br>⚠️ Microsoft deprecated WordPad in <strong>Windows 11 (2023)</strong>. It was removed from Windows 11 24H2. If you're on Windows 11, it may no longer be pre-installed.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 WordPad vs Notepad vs Word</div>
+      <div class="card-body">
+        <strong>Notepad</strong> — plain text only (.txt). No formatting. Lightning fast. For code, logs, config files.<br>
+        <strong>WordPad</strong> — rich text (.rtf, .docx, .txt). Basic formatting + images. No tables/spell-check. For simple documents and letters.<br>
+        <strong>MS Word</strong> — full word processor. Tables, styles, mail merge, spell-check, tracked changes, macros. For professional and complex documents.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🖊️ The Ribbon Interface</div>
+      <div class="card-body">WordPad uses a ribbon UI (since Windows 7) with two main tabs:<br>
+        <strong>Home</strong> — Clipboard, Font, Paragraph, Insert groups. All day-to-day formatting lives here.<br>
+        <strong>View</strong> — Zoom, Ruler, Word Wrap, Units settings.<br><br>
+        The Quick Access Toolbar (top-left) has Save, Undo, Redo by default. It cannot be customized in WordPad (unlike Word).</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔧 What WordPad Can & Cannot Do</div>
+      <div class="card-body">
+        <strong>✅ Can do:</strong> Bold/Italic/Underline, Font & size, Text/highlight color, Alignment, Bullet lists, Line spacing, Indents, Insert images, Insert Date/Time, Insert OLE objects, Find & Replace, Print with page setup, Open .docx and .odt files.<br><br>
+        <strong>❌ Cannot do:</strong> Tables, Numbered lists, Spell check, Grammar check, Headers & Footers, Page numbers, Tracked changes, Styles/Themes, Mail merge, Macros, Multi-column layout, Footnotes/Endnotes.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">💡 Pro Tips</div>
+      <div class="card-body">
+        · Use <strong>Ctrl+Space</strong> to strip all character formatting from selected text — resets to default font/size.<br>
+        · <strong>Triple-click</strong> selects an entire paragraph instantly.<br>
+        · Paste from Word using <strong>Paste Special → Unformatted Text</strong> to remove unwanted styles.<br>
+        · You can drag and drop images directly from File Explorer into WordPad.<br>
+        · <strong>Tab key</strong> in WordPad moves to the next tab stop on the ruler — set custom stops by clicking the ruler.<br>
+        · To open WordPad quickly: press <strong>Win + R</strong>, type <code>write</code>, press Enter.<br>
+        · For spell checking, copy text to Word or use browser tools — WordPad has no built-in spellcheck.
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

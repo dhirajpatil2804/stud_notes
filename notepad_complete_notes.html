@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:
+  radial-gradient(circle at top right,#312e81,transparent 30%),
+  radial-gradient(circle at bottom left,#7c3aed,transparent 30%),
+  linear-gradient(135deg,#020617,#0f172a,#111827);
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(#6366f1,#8b5cf6);
+  border-radius:20px;
+}
+
+/* Container */
+.wrap{
+  width:100%;
+  max-width:1450px;
+  margin:auto;
+  padding:30px 20px 60px;
+}
+
+/* Accessibility */
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+/* Titles */
+.page-title{
+  font-size:clamp(2rem,5vw,4.2rem);
+  font-weight:700;
+  text-align:center;
+  margin-bottom:12px;
+  line-height:1.2;
+  background:linear-gradient(to right,#38bdf8,#818cf8,#f472b6);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:fadeDown 1s ease;
+}
+
+.page-sub{
+  text-align:center;
+  color:#cbd5e1;
+  margin-bottom:40px;
+  font-size:clamp(0.95rem,2vw,1.1rem);
+  animation:fadeUp 1s ease;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:40px;
+  position:sticky;
+  top:10px;
+  z-index:100;
+  padding:10px;
+  border-radius:22px;
+  backdrop-filter:blur(12px);
+}
+
+.tab{
+  padding:12px 24px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  color:#fff;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  transition:all 0.35s ease;
+  min-width:180px;
+}
+
+.tab:hover{
+  transform:translateY(-3px);
+  background:#6366f1;
+  box-shadow:0 10px 25px rgba(99,102,241,0.4);
+}
+
+.tab.active{
+  background:linear-gradient(to right,#6366f1,#8b5cf6);
+  box-shadow:0 12px 28px rgba(99,102,241,0.45);
+}
+
+/* Sections */
+.section{
+  display:none;
+  animation:fade 0.5s ease;
+}
+
+.section.active{
+  display:block;
+}
+
+/* Headings */
+h3{
+  margin:35px 0 18px;
+  font-size:clamp(1.1rem,3vw,1.5rem);
+  color:#93c5fd;
+  letter-spacing:1px;
+}
+
+/* Grid Layout */
+.two-col{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:20px;
+}
+
+/* Cards */
+.card{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:22px;
+  backdrop-filter:blur(14px);
+  transition:0.4s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  width:150%;
+  height:150%;
+  background:linear-gradient(
+    45deg,
+    transparent,
+    rgba(255,255,255,0.05),
+    transparent
+  );
+  top:-120%;
+  left:-120%;
+  transform:rotate(25deg);
+  transition:0.8s;
+}
+
+.card:hover::before{
+  top:100%;
+  left:100%;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(99,102,241,0.5);
+  box-shadow:0 18px 35px rgba(0,0,0,0.4);
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  font-size:1.1rem;
+  font-weight:600;
+  margin-bottom:15px;
+}
+
+.card-body{
+  color:#d1d5db;
+  line-height:1.9;
+  font-size:15px;
+  word-wrap:break-word;
+}
+
+/* Tool Icon */
+.tool-icon{
+  width:52px;
+  height:52px;
+  min-width:52px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  background:rgba(255,255,255,0.1);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Badges */
+.badge{
+  padding:6px 12px;
+  border-radius:50px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.badge-blue{
+  background:#2563eb;
+}
+
+.badge-green{
+  background:#059669;
+}
+
+.badge-amber{
+  background:#d97706;
+}
+
+.badge-red{
+  background:#dc2626;
+}
+
+.badge-purple{
+  background:#7c3aed;
+}
+
+/* Shortcut Grid */
+.shortcut-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:15px;
+}
+
+.sk-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:0.3s ease;
+}
+
+.sk-row:hover{
+  transform:scale(1.03);
+  background:rgba(99,102,241,0.2);
+}
+
+.sk-key{
+  background:#111827;
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:12px;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.sk-desc{
+  color:#e5e7eb;
+  font-size:14px;
+}
+
+/* Tables */
+.ext-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:720px;
+}
+
+.ext-table th{
+  background:#4f46e5;
+  padding:16px;
+  text-align:left;
+  font-size:14px;
+}
+
+.ext-table td{
+  padding:16px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  color:#e5e7eb;
+  line-height:1.8;
+  font-size:14px;
+}
+
+.ext-table tr:hover{
+  background:rgba(255,255,255,0.05);
+}
+
+.ext-code{
+  color:#60a5fa;
+  font-weight:600;
+}
+
+/* Compare Section */
+.compare-row{
+  display:flex;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  flex-wrap:wrap;
+}
+
+.compare-col{
+  flex:1;
+  min-width:120px;
+}
+
+.compare-head{
+  font-weight:600;
+  color:#93c5fd;
+}
+
+/* Inline Code */
+code{
+  background:rgba(255,255,255,0.08);
+  padding:3px 8px;
+  border-radius:8px;
+  color:#93c5fd;
+  word-break:break-word;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:992px){
+
+  .wrap{
+    padding:24px 18px 50px;
+  }
+
+  .card{
+    padding:20px;
+  }
+
+  .shortcut-grid{
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+  .wrap{
+    padding:20px 14px 40px;
+  }
+
+  .tabs{
+    top:0;
+    gap:10px;
+    border-radius:0 0 20px 20px;
+  }
+
+  .tab{
+    width:100%;
+    min-width:unset;
+    text-align:center;
+  }
+
+  .two-col{
+    grid-template-columns:1fr;
+  }
+
+  .shortcut-grid{
+    grid-template-columns:1fr;
+  }
+
+  .ext-table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:20px;
+  }
+
+  .card-title{
+    font-size:1rem;
+    gap:10px;
+  }
+
+  .card-body{
+    font-size:14px;
+    line-height:1.8;
+  }
+
+  .tool-icon{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    font-size:20px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media(max-width:480px){
+
+  .page-title{
+    font-size:1.8rem;
+  }
+
+  .page-sub{
+    font-size:0.9rem;
+  }
+
+  .card{
+    padding:16px;
+  }
+
+  .card-body{
+    font-size:13.5px;
+  }
+
+  .sk-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .sk-key{
+    font-size:11px;
+  }
+
+  .ext-table th,
+  .ext-table td{
+    padding:12px;
+    font-size:13px;
+  }
+}
+
+/* Animations */
+@keyframes fade{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeDown{
+  from{
+    opacity:0;
+    transform:translateY(-40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+</style>
+<script>
+function showTab(id){
+
+  document.querySelectorAll('.section').forEach(section=>{
+    section.classList.remove('active');
+  });
+
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.classList.remove('active');
+  });
+
+  document.getElementById(id).classList.add('active');
+
+  event.target.classList.add('active');
+
+  window.scrollTo({
+    top:140,
+    behavior:'smooth'
+  });
+
+}
+</script>
+</head>
+<body>
+  <div class="wrap">
+  <h2 class="sr-only">Complete Notepad notes including menus, shortcuts, file extensions, and tips</h2>
+  <p class="page-title">🗒️ Notepad — Complete Notes</p>
+  <p class="page-sub">Menus & Features · Shortcuts · File Extensions · Overview & Tips</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('menus')">📋 Menus & Features</button>
+    <button class="tab" onclick="showTab('shortcuts')">⌨️ Shortcuts</button>
+    <button class="tab" onclick="showTab('extensions')">📁 Extensions</button>
+    <button class="tab" onclick="showTab('overview')">🗂️ Overview</button>
+  </div>
+
+  <!-- MENUS & FEATURES -->
+  <div id="menus" class="section active">
+
+    <h3>File Menu</h3>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">📄</div> New <span class="badge badge-blue">Ctrl+N</span></div>
+      <div class="card-body">Opens a completely blank document in the same Notepad window. If the current document has unsaved changes, Notepad prompts you to save before clearing. In Notepad (Windows 11), each New opens a new tab.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">🪟</div> New Window <span class="badge badge-blue">Ctrl+Shift+N</span></div>
+      <div class="card-body">Opens a second, independent Notepad window. Useful for viewing or editing two files side by side. Available in Windows 11 Notepad.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">📂</div> Open <span class="badge badge-green">Ctrl+O</span></div>
+      <div class="card-body">Opens the standard Windows file browser to pick a file. Notepad can open any plain-text file regardless of extension (.txt, .csv, .log, .ini, .bat, .html, .py, .js, etc.) as long as the content is plain text.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">💾</div> Save / Save As <span class="badge badge-green">Ctrl+S / Ctrl+Shift+S</span></div>
+      <div class="card-body">Save writes changes to the current file. Save As lets you choose a new filename, location, and encoding. Encoding options: ANSI, UTF-8, UTF-8 with BOM, UTF-16 LE, UTF-16 BE. Default is UTF-8 in Windows 11 Notepad.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">🖨️</div> Page Setup & Print <span class="badge badge-amber">Ctrl+P</span></div>
+      <div class="card-body">Page Setup configures margins, paper size, orientation, and header/footer text. Default header is <code>&f</code> (filename) and footer is <code>&p</code> (page number). Print sends the file to a connected printer.</div>
+    </div>
+
+    <h3>Edit Menu</h3>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">↩️</div> Undo / Redo <span class="badge badge-blue">Ctrl+Z / Y</span></div>
+        <div class="card-body">Undo reverses the last action. Notepad supports multiple undo steps (Windows 11). Redo re-applies an undone action.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">✂️</div> Cut / Copy / Paste <span class="badge badge-green">X / C / V</span></div>
+        <div class="card-body">Standard clipboard operations. Paste always pastes as plain text — no formatting is carried over from rich sources.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">🔎</div> Find <span class="badge badge-amber">Ctrl+F</span></div>
+        <div class="card-body">Opens Find toolbar. Search forward or backward, with Match case and Wrap around options. Windows 11 adds a live search bar at the top.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">🔁</div> Replace <span class="badge badge-amber">Ctrl+H</span></div>
+        <div class="card-body">Find a word/phrase and replace it with another. Supports Replace (one at a time) and Replace All (all instances). Supports Match case.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#F4EEFE">↗️</div> Go To Line <span class="badge badge-purple">Ctrl+G</span></div>
+        <div class="card-body">Jumps directly to a specified line number. Only works when Word Wrap is turned OFF (otherwise line numbers are unavailable).</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">🗂️</div> Select All <span class="badge badge-green">Ctrl+A</span></div>
+        <div class="card-body">Selects all text in the document. Useful before copying entire file contents or applying a bulk operation.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">📅</div> Time/Date <span class="badge badge-blue">F5</span></div>
+        <div class="card-body">Inserts the current date and time at the cursor position in the format: HH:MM AM/PM DD/MM/YYYY. A quick way to timestamp notes or logs.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">🔤</div> Delete / Select Word <span class="badge badge-amber">Shortcuts</span></div>
+        <div class="card-body">Ctrl+Delete removes the next word. Ctrl+Backspace removes the previous word. Double-click selects a word. Triple-click selects a line (Windows 11).</div>
+      </div>
+    </div>
+
+    <h3>Format Menu</h3>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#F4EEFE">↩</div> Word Wrap <span class="badge badge-purple">Toggle</span></div>
+      <div class="card-body">When ON, long lines wrap to fit the window width — no horizontal scrolling needed. When OFF, each line is one continuous line and Go To Line (Ctrl+G) becomes available. Default is ON in Windows 11 Notepad. Note: Word Wrap does not insert actual line breaks — it only affects display.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">🔤</div> Font <span class="badge badge-blue">Formatting</span></div>
+      <div class="card-body">Opens the Font dialog to change the font family, style (Regular/Bold/Italic/Bold Italic), and size for the entire document. Notepad applies one font to the whole file — you cannot mix fonts within the document. The font setting affects only the display, not the saved file content.</div>
+    </div>
+
+    <h3>View Menu (Windows 11 Notepad)</h3>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">🔍</div> Zoom <span class="badge badge-green">Ctrl+± / Ctrl+0</span></div>
+        <div class="card-body">Zoom In (Ctrl++), Zoom Out (Ctrl+−), Restore (Ctrl+0). Only affects the display — does not change font size in the saved file.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">🌙</div> Theme <span class="badge badge-blue">Appearance</span></div>
+        <div class="card-body">Switch between Light, Dark, and Use system setting. Dark mode is native in Windows 11 Notepad — no workarounds needed.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">📊</div> Status Bar <span class="badge badge-amber">Toggle</span></div>
+        <div class="card-body">Shows the current cursor position (line and column), zoom level, and encoding at the bottom. Only visible when Word Wrap is OFF in classic Notepad; always visible in Windows 11 Notepad.</div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="tool-icon" style="background:#F4EEFE">🗂️</div> Tabs <span class="badge badge-purple">Windows 11</span></div>
+        <div class="card-body">Windows 11 Notepad supports multiple tabs in one window. Ctrl+N opens a new tab. Ctrl+W closes the current tab. Switch tabs with Ctrl+Tab or clicking.</div>
+      </div>
+    </div>
+
+    <h3>Header & Footer Codes (Page Setup)</h3>
+    <div class="card">
+      <div class="card-body">
+        These special codes go in the Header/Footer fields in File → Page Setup:<br><br>
+        <code>&f</code> — File name &nbsp;|&nbsp; <code>&p</code> — Page number &nbsp;|&nbsp; <code>&P</code> — Total pages<br>
+        <code>&d</code> — Short date &nbsp;|&nbsp; <code>&D</code> — Long date &nbsp;|&nbsp; <code>&t</code> — Short time &nbsp;|&nbsp; <code>&T</code> — Long time<br>
+        <code>&l</code> — Left-align &nbsp;|&nbsp; <code>&c</code> — Center &nbsp;|&nbsp; <code>&r</code> — Right-align<br><br>
+        Example: <code>&lMy Notes&r&p</code> → prints "My Notes" on the left and page number on the right.
+      </div>
+    </div>
+
+    <h3>Auto-Log Feature (.LOG trick)</h3>
+    <div class="card">
+      <div class="card-body">
+        If the very first line of a Notepad file is <code>.LOG</code> (in capitals), Notepad automatically appends the current date and time every time the file is opened. This turns Notepad into a simple timestamped diary or log file without any extra setup. Just type <code>.LOG</code> on line 1 and save — Notepad does the rest.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SHORTCUTS -->
+  <div id="shortcuts" class="section">
+    <h3>File Operations</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + N</span><span class="sk-desc">New document / new tab</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + N</span><span class="sk-desc">New window</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + O</span><span class="sk-desc">Open file</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + S</span><span class="sk-desc">Save</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + S</span><span class="sk-desc">Save As</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + P</span><span class="sk-desc">Print</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + W</span><span class="sk-desc">Close current tab</span></div>
+      <div class="sk-row"><span class="sk-key">Alt + F4</span><span class="sk-desc">Close Notepad</span></div>
+    </div>
+    <h3>Editing</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + Z</span><span class="sk-desc">Undo</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Y</span><span class="sk-desc">Redo</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + X</span><span class="sk-desc">Cut</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + C</span><span class="sk-desc">Copy</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + V</span><span class="sk-desc">Paste (plain text only)</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + A</span><span class="sk-desc">Select all</span></div>
+      <div class="sk-row"><span class="sk-key">Delete</span><span class="sk-desc">Delete character ahead</span></div>
+      <div class="sk-row"><span class="sk-key">Backspace</span><span class="sk-desc">Delete character behind</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Delete</span><span class="sk-desc">Delete next word</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Backspace</span><span class="sk-desc">Delete previous word</span></div>
+      <div class="sk-row"><span class="sk-key">F5</span><span class="sk-desc">Insert date & time</span></div>
+    </div>
+    <h3>Find & Go To</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + F</span><span class="sk-desc">Find text</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + H</span><span class="sk-desc">Find and Replace</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + G</span><span class="sk-desc">Go to line number</span></div>
+      <div class="sk-row"><span class="sk-key">F3</span><span class="sk-desc">Find next occurrence</span></div>
+      <div class="sk-row"><span class="sk-key">Shift + F3</span><span class="sk-desc">Find previous occurrence</span></div>
+    </div>
+    <h3>View & Zoom</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + +</span><span class="sk-desc">Zoom in</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + −</span><span class="sk-desc">Zoom out</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + 0</span><span class="sk-desc">Restore default zoom</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Scroll</span><span class="sk-desc">Zoom in/out with mouse</span></div>
+    </div>
+    <h3>Navigation</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + Home</span><span class="sk-desc">Go to start of document</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + End</span><span class="sk-desc">Go to end of document</span></div>
+      <div class="sk-row"><span class="sk-key">Home / End</span><span class="sk-desc">Start / end of current line</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + ← / →</span><span class="sk-desc">Move word by word</span></div>
+      <div class="sk-row"><span class="sk-key">PgUp / PgDn</span><span class="sk-desc">Scroll up / down one screen</span></div>
+    </div>
+    <h3>Selection</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Shift + ← / →</span><span class="sk-desc">Select char by char</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + ← / →</span><span class="sk-desc">Select word by word</span></div>
+      <div class="sk-row"><span class="sk-key">Shift + Home / End</span><span class="sk-desc">Select to line start/end</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + Home/End</span><span class="sk-desc">Select to doc start/end</span></div>
+      <div class="sk-row"><span class="sk-key">Double-click</span><span class="sk-desc">Select entire word</span></div>
+      <div class="sk-row"><span class="sk-key">Triple-click</span><span class="sk-desc">Select entire line (Win 11)</span></div>
+    </div>
+    <h3>Tabs (Windows 11 only)</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + N</span><span class="sk-desc">Open new tab</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + W</span><span class="sk-desc">Close current tab</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Tab</span><span class="sk-desc">Next tab</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + Tab</span><span class="sk-desc">Previous tab</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + 1–9</span><span class="sk-desc">Jump to tab by number</span></div>
+    </div>
+  </div>
+
+  <!-- EXTENSIONS -->
+  <div id="extensions" class="section">
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table class="ext-table">
+        <thead>
+          <tr>
+            <th>Extension</th>
+            <th>Full Form</th>
+            <th>Description & Use with Notepad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="ext-code">.txt</span></td>
+            <td>Plain Text File</td>
+            <td>Notepad's default format. Stores raw text with no formatting whatsoever. Universal compatibility — opens on every OS, device, and application. Best for notes, lists, and simple documents.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.log</span></td>
+            <td>Log File</td>
+            <td>Plain text used for recording events, errors, or timestamped entries. Notepad's .LOG trick (first line = <code>.LOG</code>) auto-appends timestamps on each open. Used by system tools, servers, and apps.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.ini</span></td>
+            <td>Initialization / Configuration File</td>
+            <td>Windows configuration files using [Section] and key=value pairs. Notepad is the standard editor for .ini files. Used by Windows, games, and legacy software for settings storage.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.bat</span></td>
+            <td>Batch File</td>
+            <td>Windows command-line script file. Written as plain text in Notepad and executed by cmd.exe. Contains a sequence of commands (copy, del, echo, etc.). Double-clicking runs the script.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.cmd</span></td>
+            <td>Windows Command Script</td>
+            <td>Similar to .bat but runs under cmd.exe specifically (not COMMAND.COM). Preferred over .bat for modern Windows scripts. Written and edited in Notepad.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.csv</span></td>
+            <td>Comma-Separated Values</td>
+            <td>Tabular data stored as plain text with commas separating fields. Notepad can open and edit CSV files in raw form. Usually opened in Excel for table view, but Notepad is useful for quick edits.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.html / .htm</span></td>
+            <td>HyperText Markup Language</td>
+            <td>Web page source code. Notepad is a classic beginner tool for writing HTML — save as .html and open in a browser to preview. No syntax highlighting, but fully functional for basic web pages.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.xml</span></td>
+            <td>Extensible Markup Language</td>
+            <td>Structured data and configuration format using tags. Notepad can open and edit XML files. No validation or formatting, but works for quick manual edits.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.json</span></td>
+            <td>JavaScript Object Notation</td>
+            <td>Lightweight data exchange format widely used in APIs and config files. Notepad can edit JSON, though without syntax coloring. Windows 11 Notepad has basic JSON support.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.py .js .css</span></td>
+            <td>Python / JavaScript / CSS Source</td>
+            <td>Programming language source files. All are plain text — Notepad can open and edit them. No syntax highlighting or IntelliSense, but usable for quick changes without opening a full IDE.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.inf</span></td>
+            <td>Setup Information File</td>
+            <td>Windows driver and installer setup files. Plain text in INI-like format. Notepad is used to inspect or edit .inf files for driver configurations.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">💡 Encoding Options (Save As)</div>
+      <div class="card-body">
+        <strong>UTF-8</strong> — Default in Windows 11. Supports all languages and symbols. Recommended for all new files.<br>
+        <strong>UTF-8 with BOM</strong> — Adds a Byte Order Mark at the start. Some older programs need this to detect UTF-8.<br>
+        <strong>UTF-16 LE / BE</strong> — Little Endian / Big Endian. Used for files needing wide Unicode support (e.g. East Asian languages).<br>
+        <strong>ANSI</strong> — Legacy Windows encoding. Limited to ~256 characters based on system locale. Avoid for new files.
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="overview" class="section">
+    <div class="card">
+      <div class="card-title">📌 What is Notepad?</div>
+      <div class="card-body">Notepad (<code>notepad.exe</code>) is Microsoft's ultra-lightweight plain text editor, included with every version of Windows since 1985. It has no formatting — no bold, no fonts per-selection, no colors. Everything it saves is pure plain text. It is the fastest text editor on Windows and is ideal for coding, configs, logs, and quick notes.<br><br>
+      Open via: <strong>Win + R</strong> → type <code>notepad</code> → Enter, or Start → Search → "Notepad".</div>
+    </div>
+    <div class="card">
+      <div class="card-title">📊 Notepad vs WordPad vs Word</div>
+      <div class="card-body">
+        <div class="compare-row">
+          <div style="width:110px;font-weight:500;font-size:13px;color:var(--color-text-primary)">Feature</div>
+          <div class="compare-col compare-head">Notepad</div>
+          <div class="compare-col compare-head">WordPad</div>
+          <div class="compare-col compare-head">MS Word</div>
+        </div>
+        <div class="compare-row">
+          <div style="width:110px;font-size:13px;color:var(--color-text-secondary)">Formatting</div>
+          <div class="compare-col">❌ None</div>
+          <div class="compare-col">✅ Basic</div>
+          <div class="compare-col">✅ Full</div>
+        </div>
+        <div class="compare-row">
+          <div style="width:110px;font-size:13px;color:var(--color-text-secondary)">Tables</div>
+          <div class="compare-col">❌ No</div>
+          <div class="compare-col">❌ No</div>
+          <div class="compare-col">✅ Yes</div>
+        </div>
+        <div class="compare-row">
+          <div style="width:110px;font-size:13px;color:var(--color-text-secondary)">Spell check</div>
+          <div class="compare-col">❌ No</div>
+          <div class="compare-col">❌ No</div>
+          <div class="compare-col">✅ Yes</div>
+        </div>
+        <div class="compare-row">
+          <div style="width:110px;font-size:13px;color:var(--color-text-secondary)">Images</div>
+          <div class="compare-col">❌ No</div>
+          <div class="compare-col">✅ Yes</div>
+          <div class="compare-col">✅ Yes</div>
+        </div>
+        <div class="compare-row">
+          <div style="width:110px;font-size:13px;color:var(--color-text-secondary)">Code editing</div>
+          <div class="compare-col">✅ Best</div>
+          <div class="compare-col">⚠️ OK</div>
+          <div class="compare-col">❌ Poor</div>
+        </div>
+        <div class="compare-row">
+          <div style="width:110px;font-size:13px;color:var(--color-text-secondary)">Speed</div>
+          <div class="compare-col">✅ Fastest</div>
+          <div class="compare-col">✅ Fast</div>
+          <div class="compare-col">⚠️ Slow start</div>
+        </div>
+        <div class="compare-row">
+          <div style="width:110px;font-size:13px;color:var(--color-text-secondary)">File size</div>
+          <div class="compare-col">✅ Tiny</div>
+          <div class="compare-col">⚠️ Medium</div>
+          <div class="compare-col">❌ Large</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🆕 Windows 11 Notepad — New Features</div>
+      <div class="card-body">
+        · <strong>Tabs</strong> — multiple files open in one window (like a browser).<br>
+        · <strong>Dark mode</strong> — native light/dark/system theme toggle.<br>
+        · <strong>Autosave</strong> — unsaved changes are preserved between sessions; no more "Do you want to save?" on close.<br>
+        · <strong>Zoom controls</strong> — Ctrl+scroll or View → Zoom.<br>
+        · <strong>Improved Find</strong> — inline search bar, live highlighting of all matches.<br>
+        · <strong>Settings page</strong> — dedicated settings panel (gear icon) for font, theme, line endings, and more.<br>
+        · <strong>Spell check</strong> — basic spell check added in 2024 update (wavy underlines).<br>
+        · <strong>Character count</strong> — shown in status bar.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔧 What Notepad Can & Cannot Do</div>
+      <div class="card-body">
+        <strong>✅ Can do:</strong> Open/save plain text files, Find & Replace, Go to line, Insert date/time (F5), Word Wrap toggle, Set font (display only), Page setup with header/footer codes, Multiple encodings (UTF-8, ANSI, UTF-16), Multiple tabs (Win 11), Zoom, Dark mode (Win 11), Auto-log (.LOG trick), Open any plain-text file type.<br><br>
+        <strong>❌ Cannot do:</strong> Text formatting (bold/italic/color), Tables, Images, Spell check (pre-2024), Numbered lists, Print preview, Macros, Multiple fonts in one file, Columns, Headers/Footers visually (only in print).
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">💡 Pro Tips</div>
+      <div class="card-body">
+        · Type <code>.LOG</code> on line 1 → Notepad auto-stamps date/time every time you open it — instant diary/log.<br>
+        · <strong>F5</strong> inserts current date and time at cursor — fastest timestamp shortcut on Windows.<br>
+        · Change encoding to <strong>UTF-8</strong> in Save As to avoid special character issues when sharing files.<br>
+        · Use Notepad to <strong>strip formatting</strong> — paste rich text in, Ctrl+A, Ctrl+C, then paste clean text elsewhere.<br>
+        · <strong>Ctrl+G</strong> jumps to any line instantly (turn Word Wrap OFF first).<br>
+        · Right-click any file → Open with → Notepad to view raw source of any text-based file.<br>
+        · For large files (100MB+), Notepad struggles — use <strong>Notepad++</strong> or VS Code instead.<br>
+        · Save HTML files with <code>.html</code> extension in Save As → open in browser to instantly preview web pages.
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

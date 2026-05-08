@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#6366f1;
+  border-radius:20px;
+}
+
+/* Container */
+.wrap{
+  width:100%;
+  max-width:1400px;
+  margin:auto;
+  padding:30px 20px 60px;
+}
+
+/* Accessibility */
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+/* Title */
+.page-title{
+  font-size:clamp(2rem,5vw,4rem);
+  font-weight:700;
+  text-align:center;
+  margin-bottom:10px;
+  line-height:1.2;
+  background:linear-gradient(to right,#60a5fa,#a78bfa,#f472b6);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:fadeDown 1s ease;
+}
+
+.page-sub{
+  text-align:center;
+  color:#cbd5e1;
+  margin-bottom:35px;
+  font-size:clamp(0.9rem,2vw,1.1rem);
+  animation:fadeUp 1s ease;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:35px;
+  position:sticky;
+  top:10px;
+  z-index:100;
+  padding:10px;
+  border-radius:20px;
+  backdrop-filter:blur(12px);
+}
+
+.tab{
+  padding:12px 22px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  background:rgba(255,255,255,0.08);
+  color:#fff;
+  transition:all 0.3s ease;
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.1);
+  min-width:140px;
+}
+
+.tab:hover{
+  transform:translateY(-3px);
+  background:#6366f1;
+  box-shadow:0 8px 20px rgba(99,102,241,0.4);
+}
+
+.tab.active{
+  background:linear-gradient(to right,#6366f1,#8b5cf6);
+  box-shadow:0 10px 25px rgba(99,102,241,0.5);
+}
+
+/* Sections */
+.section{
+  display:none;
+  animation:fade 0.5s ease;
+}
+
+.section.active{
+  display:block;
+}
+
+/* Headings */
+h3{
+  margin:35px 0 20px;
+  font-size:clamp(1.1rem,3vw,1.5rem);
+  color:#93c5fd;
+  letter-spacing:1px;
+}
+
+/* Cards */
+.card{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(14px);
+  border-radius:22px;
+  padding:24px;
+  margin-bottom:22px;
+  transition:0.4s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  width:150%;
+  height:150%;
+  background:linear-gradient(
+    45deg,
+    transparent,
+    rgba(255,255,255,0.05),
+    transparent
+  );
+  top:-120%;
+  left:-120%;
+  transform:rotate(25deg);
+  transition:0.7s;
+}
+
+.card:hover::before{
+  top:100%;
+  left:100%;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 15px 35px rgba(0,0,0,0.4);
+  border-color:rgba(99,102,241,0.5);
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:1.1rem;
+  font-weight:600;
+  margin-bottom:15px;
+  flex-wrap:wrap;
+}
+
+.card-body{
+  color:#d1d5db;
+  line-height:1.9;
+  font-size:15px;
+  word-wrap:break-word;
+}
+
+/* Tool icon */
+.tool-icon{
+  width:50px;
+  height:50px;
+  min-width:50px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  background:rgba(255,255,255,0.1);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Badges */
+.badge{
+  padding:6px 12px;
+  border-radius:50px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.badge-blue{
+  background:#2563eb;
+}
+
+.badge-green{
+  background:#059669;
+}
+
+.badge-amber{
+  background:#d97706;
+}
+
+.badge-red{
+  background:#dc2626;
+}
+
+/* Shortcut Grid */
+.shortcut-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:15px;
+}
+
+.sk-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  transition:0.3s ease;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.sk-row:hover{
+  transform:scale(1.03);
+  background:rgba(99,102,241,0.2);
+}
+
+.sk-key{
+  background:#111827;
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:12px;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.sk-desc{
+  color:#d1d5db;
+  font-size:14px;
+}
+
+/* Table */
+.ext-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px;
+}
+
+.ext-table th{
+  background:#4f46e5;
+  padding:16px;
+  text-align:left;
+  font-size:15px;
+}
+
+.ext-table td{
+  padding:16px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  color:#e5e7eb;
+  font-size:14px;
+}
+
+.ext-table tr:hover{
+  background:rgba(255,255,255,0.05);
+}
+
+.ext-code{
+  color:#60a5fa;
+  font-weight:600;
+}
+
+/* Responsive Table */
+.table-wrapper{
+  overflow-x:auto;
+  border-radius:20px;
+}
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media(max-width:992px){
+
+  .wrap{
+    padding:25px 18px 50px;
+  }
+
+  .card{
+    padding:20px;
+  }
+
+  .shortcut-grid{
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  }
+}
+
+@media(max-width:768px){
+
+  .wrap{
+    padding:20px 14px 40px;
+  }
+
+  .tabs{
+    gap:10px;
+    top:0;
+    border-radius:0 0 20px 20px;
+  }
+
+  .tab{
+    width:100%;
+    min-width:unset;
+    text-align:center;
+    font-size:14px;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:18px;
+  }
+
+  .card-title{
+    font-size:1rem;
+    gap:10px;
+  }
+
+  .card-body{
+    font-size:14px;
+    line-height:1.8;
+  }
+
+  .tool-icon{
+    width:42px;
+    height:42px;
+    min-width:42px;
+    font-size:20px;
+  }
+
+  .shortcut-grid{
+    grid-template-columns:1fr;
+  }
+
+  .sk-row{
+    padding:14px;
+  }
+
+  .ext-table{
+    min-width:650px;
+  }
+}
+
+@media(max-width:480px){
+
+  .page-title{
+    font-size:1.9rem;
+  }
+
+  .page-sub{
+    font-size:0.9rem;
+  }
+
+  .card{
+    padding:16px;
+  }
+
+  .card-body{
+    font-size:13.5px;
+  }
+
+  .sk-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .sk-key{
+    font-size:11px;
+  }
+
+  .ext-table th,
+  .ext-table td{
+    padding:12px;
+    font-size:13px;
+  }
+}
+
+/* Animations */
+@keyframes fade{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeDown{
+  from{
+    opacity:0;
+    transform:translateY(-40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+</style>
+<script>
+function showTab(id){
+
+  document.querySelectorAll('.section').forEach(section=>{
+    section.classList.remove('active');
+  });
+
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.classList.remove('active');
+  });
+
+  document.getElementById(id).classList.add('active');
+
+  event.target.classList.add('active');
+
+  window.scrollTo({
+    top:150,
+    behavior:'smooth'
+  });
+}
+</script>
+
+</head>
+<body>
+  
+<div class="wrap">
+  <h2 class="sr-only">Complete MS Paint notes including tools, shortcuts, file extensions, and tips</h2>
+  <p class="page-title">🎨 MS Paint — Complete Notes</p>
+  <p class="page-sub">Tools · Shortcuts · File Extensions · Tips</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('tools')">🛠 Tools</button>
+    <button class="tab" onclick="showTab('shortcuts')">⌨️ Shortcuts</button>
+    <button class="tab" onclick="showTab('extensions')">📁 Extensions</button>
+    <button class="tab" onclick="showTab('overview')">📋 Overview</button>
+  </div>
+
+  <!-- TOOLS -->
+  <div id="tools" class="section active">
+    <h3>Drawing Tools</h3>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">✏️</div> Pencil <span class="badge badge-blue">Freehand</span></div>
+      <div class="card-body">Draws thin, freehand lines pixel by pixel. Left-click draws with foreground color; right-click draws with background color. Line width is always 1px. Best for fine pixel art or precision edits.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">🖌️</div> Brushes <span class="badge badge-amber">Freehand</span></div>
+      <div class="card-body">Paints with various brush shapes — round, square, calligraphy diagonal. Choose brush size from the Size selector. Produces softer, wider strokes than the pencil. Great for painting and artistic effects.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">🪣</div> Fill (Paint Bucket) <span class="badge badge-green">Color Fill</span></div>
+      <div class="card-body">Flood-fills any connected area with the selected color. Left-click fills with foreground; right-click fills with background. Works on enclosed shapes. If boundaries have gaps, the fill may overflow — close gaps first.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">🧹</div> Eraser <span class="badge badge-amber">Erase</span></div>
+      <div class="card-body">Erases pixels and replaces them with the background color. Size adjustable. Right-click-drag with eraser replaces foreground color with background color only — acts as a selective color replacer.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">💧</div> Color Picker (Eyedropper) <span class="badge badge-blue">Sampling</span></div>
+      <div class="card-body">Samples a color from any part of the canvas and sets it as the active color. Left-click picks foreground color; right-click picks background color. Shortcut: hold <strong>Ctrl</strong> while using another tool temporarily activates it.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEF4FE">🔍</div> Magnifier (Zoom) <span class="badge badge-blue">View</span></div>
+      <div class="card-body">Zooms in or out on the canvas. Left-click zooms in; right-click zooms out. Levels: 1×, 2×, 4×, 6×, 8×. You can also use <strong>Ctrl + Mouse Wheel</strong> or View → Zoom in modern MS Paint.</div>
+    </div>
+    <h3>Text & Selection</h3>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#F4EEFE">🅰️</div> Text Tool <span class="badge badge-blue">Text</span></div>
+      <div class="card-body">Inserts text onto the canvas. Click to create a text box, choose font, size, and style from the toolbar. Text can be Opaque (fills background) or Transparent. Once deselected, text becomes part of the image and cannot be edited.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">▭</div> Select (Rectangle) <span class="badge badge-green">Selection</span></div>
+      <div class="card-body">Selects a rectangular area. Drag to draw selection. Move, copy, cut, resize, or delete the selection. Hold <strong>Shift</strong> while dragging to leave a trail effect. Can be Opaque or Transparent selection (ignores background color).</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#EEFEF4">⬠</div> Free-form Select <span class="badge badge-green">Selection</span></div>
+      <div class="card-body">Selects an irregularly shaped area by drawing a freehand boundary. Useful for selecting specific non-rectangular regions. Same move/copy options as rectangle select.</div>
+    </div>
+    <h3>Shape Tools</h3>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">📏</div> Line <span class="badge badge-amber">Shape</span></div>
+      <div class="card-body">Draws a straight line. Hold <strong>Shift</strong> to constrain to 45° angles (horizontal, vertical, or diagonal). Thickness set via Size selector. Use for grids, borders, or geometric drawings.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">〜</div> Curve <span class="badge badge-amber">Shape</span></div>
+      <div class="card-body">Draws a curved line. First draw a straight line, then click and drag twice to bend it into a curve. Creates smooth Bezier-like curves. Can make S-curves or arcs with the two drag points.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">▭</div> Rectangle <span class="badge badge-amber">Shape</span></div>
+      <div class="card-body">Draws a rectangle. Hold <strong>Shift</strong> to draw a perfect square. Fill style: outline only, filled with border, or filled without border. Uses foreground color for border and background for fill.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">▱</div> Rounded Rectangle <span class="badge badge-amber">Shape</span></div>
+      <div class="card-body">Same as Rectangle but with rounded corners. Hold <strong>Shift</strong> for a perfect rounded square. Good for button-like or UI mockup designs.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">◯</div> Ellipse <span class="badge badge-amber">Shape</span></div>
+      <div class="card-body">Draws an oval or ellipse. Hold <strong>Shift</strong> to draw a perfect circle. Same fill options as rectangle. Useful for bubbles, heads, sun shapes, and decorative elements.</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="tool-icon" style="background:#FEF4EE">⬠</div> Polygon <span class="badge badge-amber">Shape</span></div>
+      <div class="card-body">Draws a custom polygon with any number of sides by clicking to add corners. Double-click to close the shape. Hold <strong>Shift</strong> to constrain angles to 45° increments while placing points.</div>
+    </div>
+  </div>
+
+  <!-- SHORTCUTS -->
+  <div id="shortcuts" class="section">
+    <h3>File Operations</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + N</span><span class="sk-desc">New canvas</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + O</span><span class="sk-desc">Open file</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + S</span><span class="sk-desc">Save</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + S</span><span class="sk-desc">Save As</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + P</span><span class="sk-desc">Print</span></div>
+      <div class="sk-row"><span class="sk-key">Alt + F4</span><span class="sk-desc">Close MS Paint</span></div>
+    </div>
+    <h3>Edit Operations</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + Z</span><span class="sk-desc">Undo (up to 30 steps)</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Y</span><span class="sk-desc">Redo</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + X</span><span class="sk-desc">Cut selection</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + C</span><span class="sk-desc">Copy selection</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + V</span><span class="sk-desc">Paste</span></div>
+      <div class="sk-row"><span class="sk-key">Delete</span><span class="sk-desc">Delete selected area</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + A</span><span class="sk-desc">Select all</span></div>
+      <div class="sk-row"><span class="sk-key">Esc</span><span class="sk-desc">Cancel selection</span></div>
+    </div>
+    <h3>View & Zoom</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + +</span><span class="sk-desc">Zoom in</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + −</span><span class="sk-desc">Zoom out</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + H</span><span class="sk-desc">Zoom to window</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + F</span><span class="sk-desc">Full screen view (older)</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + G</span><span class="sk-desc">Show/hide grid lines</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + R</span><span class="sk-desc">Show/hide rulers</span></div>
+    </div>
+    <h3>Image Operations</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">Ctrl + W</span><span class="sk-desc">Resize/skew image</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + E</span><span class="sk-desc">Canvas properties</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + I</span><span class="sk-desc">Invert colors</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + Shift + N</span><span class="sk-desc">New layer (Paint 3D)</span></div>
+      <div class="sk-row"><span class="sk-key">Ctrl + T</span><span class="sk-desc">Show/hide toolbox (old)</span></div>
+      <div class="sk-row"><span class="sk-key">F11</span><span class="sk-desc">Full screen toggle</span></div>
+    </div>
+    <h3>Tool Quick-Select</h3>
+    <div class="shortcut-grid">
+      <div class="sk-row"><span class="sk-key">T</span><span class="sk-desc">Text tool</span></div>
+      <div class="sk-row"><span class="sk-key">E</span><span class="sk-desc">Eraser</span></div>
+      <div class="sk-row"><span class="sk-key">I</span><span class="sk-desc">Color picker (eyedropper)</span></div>
+      <div class="sk-row"><span class="sk-key">F</span><span class="sk-desc">Fill (paint bucket)</span></div>
+      <div class="sk-row"><span class="sk-key">M</span><span class="sk-desc">Select tool</span></div>
+      <div class="sk-row"><span class="sk-key">P</span><span class="sk-desc">Pencil</span></div>
+      <div class="sk-row"><span class="sk-key">B</span><span class="sk-desc">Brush</span></div>
+    </div>
+  </div>
+
+  <!-- EXTENSIONS -->
+  <div id="extensions" class="section">
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <table class="ext-table">
+        <thead>
+          <tr>
+            <th>Extension</th>
+            <th>Full Form</th>
+            <th>Use in MS Paint</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="ext-code">.bmp</span></td>
+            <td>Bitmap</td>
+            <td>MS Paint's default format. Uncompressed, lossless. Stores every pixel directly — high quality but large file size. Best for raw editing.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.png</span></td>
+            <td>Portable Network Graphics</td>
+            <td>Lossless compressed format. Supports transparency (alpha channel). Ideal for logos, illustrations, and web graphics. Recommended for saving Paint artwork.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.jpg / .jpeg</span></td>
+            <td>Joint Photographic Experts Group</td>
+            <td>Lossy compression — reduces file size by discarding some data. Best for photographs. Not ideal for flat colors or text as it introduces artifacts.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.gif</span></td>
+            <td>Graphics Interchange Format</td>
+            <td>Supports only 256 colors. Used for simple graphics and animations (not in Paint itself). Paint can open GIFs but saves them as static images.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.tif / .tiff</span></td>
+            <td>Tagged Image File Format</td>
+            <td>High quality, lossless format widely used in printing and professional work. Large file size. MS Paint can save to TIFF in newer versions.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.heic</span></td>
+            <td>High Efficiency Image Container</td>
+            <td>Apple's modern image format. MS Paint (Windows 11 updated) can open HEIC files. Not a save target in standard Paint.</td>
+          </tr>
+          <tr>
+            <td><span class="ext-code">.ico</span></td>
+            <td>Icon File</td>
+            <td>Windows icon format. Older versions of MS Paint could save .ico files. Useful for creating desktop icons.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top: 16px;">
+      <div class="card-title">💡 Which format to choose?</div>
+      <div class="card-body">
+        <strong>Best for most artwork:</strong> .PNG — lossless, small size, supports transparency.<br>
+        <strong>Best for photos:</strong> .JPG — smaller file size for complex images.<br>
+        <strong>Best for editing/archiving:</strong> .BMP — no compression loss, original quality.<br>
+        <strong>Avoid .GIF</strong> for Paint artwork unless you specifically need 256-color output.
+      </div>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="overview" class="section">
+    <div class="card">
+      <div class="card-title">📌 What is MS Paint?</div>
+      <div class="card-body">Microsoft Paint (mspaint.exe) is a simple raster graphics editor included with every version of Windows since 1985. It edits images at the pixel level, meaning all drawings are stored as pixels — not scalable vectors. It is accessed via Start → Search → "Paint" or by running <code style="font-family:var(--font-mono);font-size:12px">mspaint</code> in Run dialog.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🖼️ Canvas Basics</div>
+      <div class="card-body">
+        <strong>Foreground color</strong> — applied by left-click actions (draw, fill).<br>
+        <strong>Background color</strong> — applied by right-click actions; also the "erase" destination color.<br>
+        <strong>Canvas size</strong> — set via Ctrl+E (Properties). Default is 800×600 px.<br>
+        <strong>Undo history</strong> — MS Paint supports up to <strong>30 undo steps</strong> (Ctrl+Z).<br>
+        <strong>Raster only</strong> — there are no layers, no vector paths, no transparency in classic Paint.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🔄 Image Menu Actions</div>
+      <div class="card-body">
+        <strong>Rotate / Flip</strong> — rotate 90° left/right or 180°; flip horizontal or vertical.<br>
+        <strong>Resize / Skew</strong> (Ctrl+W) — resize by percentage or pixels; skew horizontally or vertically by degrees.<br>
+        <strong>Invert Colors</strong> (Ctrl+I) — converts all colors to their complements (e.g. black → white).<br>
+        <strong>Crop to selection</strong> — select an area then Image → Crop to trim the canvas.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">💡 Pro Tips</div>
+      <div class="card-body">
+        · Hold <strong>Shift</strong> with any shape tool to constrain proportions (square, circle, 45° line).<br>
+        · Right-click draws with the <strong>background color</strong> — use this for two-color effects.<br>
+        · Zoom in to 8× for pixel art using the Magnifier tool.<br>
+        · Use <strong>Ctrl+V</strong> to paste a screenshot directly onto the canvas.<br>
+        · <strong>Free-form select + Transparent mode</strong> lets you copy irregular shapes without the white background.<br>
+        · Paint opens when you right-click any image → Edit with Paint.
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
