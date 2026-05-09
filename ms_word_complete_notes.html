@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Computer Notes Hub</title>
+
+  <!-- <link rel="stylesheet" href="style.css"> -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<style>
+  
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:
+  radial-gradient(circle at top left,#1e3a8a,transparent 30%),
+  radial-gradient(circle at bottom right,#7c3aed,transparent 30%),
+  linear-gradient(135deg,#0f172a,#111827,#1e293b);
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(#6366f1,#8b5cf6);
+  border-radius:20px;
+}
+
+/* Container */
+.wrap{
+  width:100%;
+  max-width:1450px;
+  margin:auto;
+  padding:30px 20px 60px;
+}
+
+/* Accessibility */
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+
+/* Title */
+.page-title{
+  font-size:clamp(2rem,5vw,4rem);
+  font-weight:700;
+  text-align:center;
+  line-height:1.2;
+  margin-bottom:12px;
+  background:linear-gradient(to right,#60a5fa,#a78bfa,#f472b6);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:fadeDown 1s ease;
+}
+
+.page-sub{
+  text-align:center;
+  color:#cbd5e1;
+  margin-bottom:35px;
+  font-size:clamp(0.95rem,2vw,1.1rem);
+  animation:fadeUp 1s ease;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:40px;
+  position:sticky;
+  top:10px;
+  z-index:100;
+  padding:10px;
+  border-radius:22px;
+  backdrop-filter:blur(12px);
+}
+
+.tab{
+  padding:12px 22px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  color:#fff;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.1);
+  transition:all 0.35s ease;
+  backdrop-filter:blur(10px);
+  min-width:170px;
+}
+
+.tab:hover{
+  transform:translateY(-3px);
+  background:#6366f1;
+  box-shadow:0 10px 25px rgba(99,102,241,0.45);
+}
+
+.tab.active{
+  background:linear-gradient(to right,#6366f1,#8b5cf6);
+  box-shadow:0 10px 30px rgba(99,102,241,0.45);
+}
+
+/* Sections */
+.section{
+  display:none;
+  animation:fade 0.5s ease;
+}
+
+.section.active{
+  display:block;
+}
+
+/* Headings */
+h3{
+  margin:35px 0 18px;
+  font-size:clamp(1.1rem,3vw,1.5rem);
+  color:#93c5fd;
+  letter-spacing:1px;
+}
+
+/* Ribbon Row */
+.ribbon-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:20px;
+}
+
+/* Cards */
+.card{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:22px;
+  backdrop-filter:blur(14px);
+  transition:0.4s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  width:150%;
+  height:150%;
+  background:linear-gradient(
+    45deg,
+    transparent,
+    rgba(255,255,255,0.05),
+    transparent
+  );
+  top:-120%;
+  left:-120%;
+  transform:rotate(25deg);
+  transition:0.8s;
+}
+
+.card:hover::before{
+  top:100%;
+  left:100%;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(99,102,241,0.5);
+  box-shadow:0 18px 35px rgba(0,0,0,0.4);
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:1.1rem;
+  font-weight:600;
+  margin-bottom:15px;
+  flex-wrap:wrap;
+}
+
+.card-body{
+  color:#d1d5db;
+  line-height:1.9;
+  font-size:15px;
+  word-wrap:break-word;
+}
+
+/* Icons */
+.tool-icon{
+  width:52px;
+  height:52px;
+  min-width:52px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  background:rgba(255,255,255,0.1);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Badges */
+.badge{
+  padding:6px 12px;
+  border-radius:50px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.badge-blue{
+  background:#2563eb;
+}
+
+.badge-green{
+  background:#059669;
+}
+
+.badge-amber{
+  background:#d97706;
+}
+
+.badge-red{
+  background:#dc2626;
+}
+
+.badge-purple{
+  background:#7c3aed;
+}
+
+/* Shortcut Grid */
+.shortcut-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:15px;
+}
+
+.sk-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:0.3s ease;
+}
+
+.sk-row:hover{
+  transform:scale(1.03);
+  background:rgba(99,102,241,0.2);
+}
+
+.sk-key{
+  background:#111827;
+  padding:8px 12px;
+  border-radius:10px;
+  font-size:12px;
+  white-space:nowrap;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.sk-desc{
+  color:#e5e7eb;
+  font-size:14px;
+}
+
+/* Table */
+.ext-table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px;
+}
+
+.ext-table th{
+  background:#4f46e5;
+  padding:16px;
+  text-align:left;
+  font-size:14px;
+}
+
+.ext-table td{
+  padding:16px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  color:#e5e7eb;
+  line-height:1.8;
+  font-size:14px;
+}
+
+.ext-table tr:hover{
+  background:rgba(255,255,255,0.05);
+}
+
+.ext-code{
+  color:#60a5fa;
+  font-weight:600;
+}
+
+/* Inline Code */
+code{
+  background:rgba(255,255,255,0.08);
+  padding:3px 8px;
+  border-radius:8px;
+  color:#93c5fd;
+  word-break:break-word;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:992px){
+
+  .wrap{
+    padding:24px 18px 50px;
+  }
+
+  .card{
+    padding:20px;
+  }
+
+  .shortcut-grid{
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+  .wrap{
+    padding:20px 14px 40px;
+  }
+
+  .tabs{
+    top:0;
+    gap:10px;
+    border-radius:0 0 20px 20px;
+  }
+
+  .tab{
+    width:100%;
+    min-width:unset;
+    text-align:center;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:20px;
+  }
+
+  .card-title{
+    font-size:1rem;
+    gap:10px;
+  }
+
+  .card-body{
+    font-size:14px;
+    line-height:1.8;
+  }
+
+  .shortcut-grid{
+    grid-template-columns:1fr;
+  }
+
+  .ribbon-row{
+    grid-template-columns:1fr;
+  }
+
+  .tool-icon{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    font-size:20px;
+  }
+
+  .ext-table{
+    display:block;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media(max-width:480px){
+
+  .page-title{
+    font-size:1.8rem;
+  }
+
+  .page-sub{
+    font-size:0.9rem;
+  }
+
+  .card{
+    padding:16px;
+  }
+
+  .card-body{
+    font-size:13.5px;
+  }
+
+  .sk-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .sk-key{
+    font-size:11px;
+  }
+
+  .ext-table th,
+  .ext-table td{
+    padding:12px;
+    font-size:13px;
+  }
+}
+
+/* Animations */
+@keyframes fade{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeDown{
+  from{
+    opacity:0;
+    transform:translateY(-40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  .wrap{padding:1.5rem 1rem;max-width:700px;font-family:var(--font-sans)}
+.title{font-size:22px;font-weight:500;margin-bottom:4px}
+.sub{font-size:14px;color:var(--color-text-secondary);margin-bottom:1.25rem}
+.tab-bar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1.25rem}
+.tb{padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);font-size:12px;cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .15s;white-space:nowrap}
+.tb.on{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent;font-weight:500}
+.sec{display:none}.sec.on{display:block}
+.grp{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:12px;overflow:hidden}
+.grp-hd{padding:10px 14px;background:var(--color-background-secondary);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.grp-hd-title{font-size:13px;font-weight:500;color:var(--color-text-primary);flex:1}
+.grp-badge{font-size:11px;padding:2px 8px;border-radius:var(--border-radius-md)}
+.grp-body{padding:0}
+.opt{padding:10px 14px;border-top:0.5px solid var(--color-border-tertiary);font-size:13px}
+.opt-name{font-weight:500;color:var(--color-text-primary);margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.opt-desc{color:var(--color-text-secondary);line-height:1.7;font-size:12.5px}
+.opt-desc code{font-family:var(--font-mono);font-size:11.5px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px}
+.badge{display:inline-block;padding:2px 7px;border-radius:var(--border-radius-md);font-size:11px;font-weight:500}
+.b-blue{background:var(--color-background-info);color:var(--color-text-info)}
+.b-green{background:var(--color-background-success);color:var(--color-text-success)}
+.b-amber{background:var(--color-background-warning);color:var(--color-text-warning)}
+.b-red{background:var(--color-background-danger);color:var(--color-text-danger)}
+.b-purple{background:#EEEDFE;color:#534AB7}
+.chevron{font-size:12px;color:var(--color-text-secondary);transition:transform .2s}
+.chevron.open{transform:rotate(180deg)}
+h3{font-size:11px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin:1rem 0 6px}
+</style>
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(t=>t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+function tog(hd){
+  const body=hd.nextElementSibling;
+  const chev=hd.querySelector('.chevron');
+  const open=body.style.display==='none'||body.style.display==='';
+  body.style.display=open?'block':'none';
+  chev.classList.toggle('open',open);
+}
+document.querySelectorAll('.grp-body').forEach((b,i)=>{
+  b.style.display=i<2?'block':'none';
+  const chev=b.previousElementSibling.querySelector('.chevron');
+  if(i<2)chev.classList.add('open');
+});
+</script>
+
+</head>
+<body>
+<h2 class="sr-only">Complete MS Word notes covering all tabs, groups, and options with explanations and examples</h2>
+
+<div class="wrap">
+<p class="title">📄 MS Word — Complete Notes</p>
+<p class="sub">Every tab · Every group · Every option explained</p>
+
+<div class="tab-bar">
+
+  <button class="tb on" onclick="showTab('overview',this)">Overview</button>
+  <button class="tb on" onclick="showTab('home',this)">Home</button>
+  <button class="tb" onclick="showTab('insert',this)">Insert</button>
+  <button class="tb" onclick="showTab('draw',this)">Draw</button>
+  <button class="tb" onclick="showTab('design',this)">Design</button>
+  <button class="tb" onclick="showTab('layout',this)">Layout</button>
+  <button class="tb" onclick="showTab('references',this)">References</button>
+  <button class="tb" onclick="showTab('mailings',this)">Mailings</button>
+  <button class="tb" onclick="showTab('review',this)">Review</button>
+  <button class="tb" onclick="showTab('view',this)">View</button>
+  <button class="tb" onclick="showTab('developer',this)">Developer</button>
+  <button class="tb" onclick="showTab('extensions',this)">Extensions</button>
+</div>
+
+<!-- ═══════════ HOME ═══════════ -->
+<div id="home" class="sec on">
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📋 Clipboard</span><span class="grp-badge b-blue">5 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Paste <span class="badge b-blue">Ctrl+V</span></div><div class="opt-desc">Inserts copied/cut content at cursor. Sub-options: <strong>Keep Source Formatting</strong> (keeps original look), <strong>Merge Formatting</strong> (matches destination style), <strong>Keep Text Only</strong> (strips all formatting). Example: paste from a website → choose Keep Text Only to remove web styling.</div></div>
+<div class="opt"><div class="opt-name">Paste Special <span class="badge b-blue">Ctrl+Alt+V</span></div><div class="opt-desc">Advanced paste — choose exact format: Unformatted Text, HTML Format, Picture (EMF/PNG), RTF. Useful when pasting Excel data as a static image or an editable table.</div></div>
+<div class="opt"><div class="opt-name">Cut <span class="badge b-blue">Ctrl+X</span></div><div class="opt-desc">Removes selected content and places it on the clipboard. The content disappears from its original location and can be pasted elsewhere.</div></div>
+<div class="opt"><div class="opt-name">Copy <span class="badge b-blue">Ctrl+C</span></div><div class="opt-desc">Copies selected content to clipboard without removing it. Original stays in place.</div></div>
+<div class="opt"><div class="opt-name">Format Painter <span class="badge b-amber">Ctrl+Shift+C/V</span></div><div class="opt-desc">Copies formatting (font, color, size, spacing) from one selection and applies it to another. Single-click = apply once; double-click = apply to multiple selections. Example: make a heading blue bold 16pt → paint that style onto other headings instantly.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔤 Font</span><span class="grp-badge b-blue">14 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Font Family <span class="badge b-blue">Ctrl+Shift+F</span></div><div class="opt-desc">Dropdown list of all installed fonts. Type a name directly to search. Example: select text → choose "Arial" to change typeface.</div></div>
+<div class="opt"><div class="opt-name">Font Size <span class="badge b-blue">Ctrl+Shift+P</span></div><div class="opt-desc">Sets size in points (pt). Type any value directly. Standard body = 11–12pt; Headings = 14–24pt. One point = 1/72 inch.</div></div>
+<div class="opt"><div class="opt-name">Increase / Decrease Font Size <span class="badge b-green">Ctrl+] / Ctrl+[</span></div><div class="opt-desc">Jumps font size up or down by preset increments (8→9→10→11→12→14→16…). Fastest way to resize without typing a number.</div></div>
+<div class="opt"><div class="opt-name">Bold <span class="badge b-blue">Ctrl+B</span></div><div class="opt-desc">Makes selected text bold. Toggle on/off. Example: <strong>Important Term</strong></div></div>
+<div class="opt"><div class="opt-name">Italic <span class="badge b-blue">Ctrl+I</span></div><div class="opt-desc">Slants text to italic. Used for titles of books, foreign words, emphasis. Example: <em>The Great Gatsby</em></div></div>
+<div class="opt"><div class="opt-name">Underline <span class="badge b-blue">Ctrl+U</span></div><div class="opt-desc">Underlines text. Click the dropdown arrow to choose line style: single, double, dotted, dashed, wavy. Example: single underline for links in printed docs.</div></div>
+<div class="opt"><div class="opt-name">Strikethrough</div><div class="opt-desc">Draws a line through text. Used to show deleted content. Example: ~~old price~~ → new price.</div></div>
+<div class="opt"><div class="opt-name">Subscript / Superscript <span class="badge b-green">Ctrl+= / Ctrl+Shift+=</span></div><div class="opt-desc">Subscript lowers text below baseline (H₂O). Superscript raises it above baseline (x², footnote¹).</div></div>
+<div class="opt"><div class="opt-name">Text Effects & Typography</div><div class="opt-desc">Applies visual effects: Shadow, Reflection, Glow, Bevel, Outline. Also includes Ligatures, Number spacing, Stylistic sets for advanced typography.</div></div>
+<div class="opt"><div class="opt-name">Text Highlight Color</div><div class="opt-desc">Applies a colored background behind text like a marker pen. 15 colors available. Example: yellow highlight for important exam terms.</div></div>
+<div class="opt"><div class="opt-name">Font Color</div><div class="opt-desc">Changes the text color. Choose from theme colors, standard colors, or custom via More Colors. Click the dropdown arrow to pick; click the button to reapply the last color.</div></div>
+<div class="opt"><div class="opt-name">Change Case <span class="badge b-amber">Shift+F3</span></div><div class="opt-desc">Cycles through: Sentence case, lowercase, UPPERCASE, Capitalize Each Word, tOGGLE cASE. Shift+F3 cycles through them rapidly.</div></div>
+<div class="opt"><div class="opt-name">Clear Formatting <span class="badge b-red">Ctrl+Space</span></div><div class="opt-desc">Removes all character formatting from selected text — resets to the default paragraph style. Clears bold, color, size changes, etc.</div></div>
+<div class="opt"><div class="opt-name">Font Dialog <span class="badge b-blue">Ctrl+D</span></div><div class="opt-desc">Opens the full Font dialog with ALL options: font, style, size, color, underline style, effects (shadow, emboss, engrave, small caps, all caps, hidden text), and character spacing (kerning, tracking).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">¶ Paragraph</span><span class="grp-badge b-blue">12 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Bullets</div><div class="opt-desc">Adds an unordered (bulleted) list. Dropdown lets you choose bullet symbol: solid circle, dash, arrow, checkmark, custom. Each Enter adds a new bullet; Enter twice exits the list.</div></div>
+<div class="opt"><div class="opt-name">Numbering</div><div class="opt-desc">Adds a numbered (ordered) list. Dropdown offers formats: 1. 2. 3. / a) b) c) / i. ii. iii. / I. II. III. Right-click a number to restart numbering at any value.</div></div>
+<div class="opt"><div class="opt-name">Multilevel List</div><div class="opt-desc">Creates nested, hierarchical lists. Combine numbers and bullets. Tab key increases indent level; Shift+Tab decreases. Example: 1. Chapter → 1.1 Section → 1.1.1 Subsection.</div></div>
+<div class="opt"><div class="opt-name">Decrease / Increase Indent <span class="badge b-amber">Shift+Tab / Tab</span></div><div class="opt-desc">Moves paragraph left or right by one tab stop (default 1.27cm). Used to visually nest paragraphs or sub-points.</div></div>
+<div class="opt"><div class="opt-name">Sort</div><div class="opt-desc">Sorts selected paragraphs or table rows alphabetically or numerically, ascending or descending. Example: sort a list of names A→Z or a column of prices low→high.</div></div>
+<div class="opt"><div class="opt-name">Show/Hide ¶ <span class="badge b-blue">Ctrl+Shift+8</span></div><div class="opt-desc">Toggles visibility of non-printing characters: paragraph marks (¶), spaces (·), tabs (→), line breaks, section breaks. Essential for troubleshooting formatting issues.</div></div>
+<div class="opt"><div class="opt-name">Align Left / Center / Right / Justify <span class="badge b-green">Ctrl+L/E/R/J</span></div><div class="opt-desc">Left (Ctrl+L): default, ragged right edge. Center (Ctrl+E): centered — for headings/titles. Right (Ctrl+R): right-aligned — for dates, page numbers. Justify (Ctrl+J): even both edges — for formal documents, newspapers.</div></div>
+<div class="opt"><div class="opt-name">Line & Paragraph Spacing</div><div class="opt-desc">Sets space between lines (1.0, 1.15, 1.5, 2.0, 2.5, 3.0) and space before/after paragraphs. Example: academic papers often use 2.0 line spacing. "Don't add space between paragraphs of same style" option prevents extra gaps in lists.</div></div>
+<div class="opt"><div class="opt-name">Shading</div><div class="opt-desc">Fills the paragraph background with a color. Click the dropdown for color picker. Example: light gray shading behind a quote block to distinguish it from body text.</div></div>
+<div class="opt"><div class="opt-name">Borders</div><div class="opt-desc">Adds borders around or between paragraphs. Dropdown: Bottom Border, Top Border, Box Border, All Borders, Outside Borders, No Border, Horizontal Line. Also opens "Borders and Shading" dialog for full customization (style, color, width).</div></div>
+<div class="opt"><div class="opt-name">Paragraph Dialog</div><div class="opt-desc">Full control: indentation (left, right, special first-line/hanging), spacing (before, after, line), line & page breaks (keep with next, keep lines together, page break before, widow/orphan control).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🎨 Styles</span><span class="grp-badge b-purple">6 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Style Gallery</div><div class="opt-desc">Quick-apply prebuilt paragraph styles: Normal, No Spacing, Heading 1–6, Title, Subtitle, Subtle Emphasis, Emphasis, Intense Emphasis, Strong, Quote, Intense Quote, List Paragraph, Caption. One click applies a complete set of font + spacing + color rules.</div></div>
+<div class="opt"><div class="opt-name">More Styles</div><div class="opt-desc">Expands the gallery to show all available styles and gives options: Apply Styles, Clear Styles, Create New Style, Save Selection as New Quick Style.</div></div>
+<div class="opt"><div class="opt-name">Styles Pane <span class="badge b-blue">Ctrl+Alt+Shift+S</span></div><div class="opt-desc">Opens the floating Styles pane on the right. Shows all styles, their usage, and lets you create, modify, or delete styles. Has "Show Preview" toggle and options to show All Styles or only Styles In Use.</div></div>
+<div class="opt"><div class="opt-name">Create a Style</div><div class="opt-desc">Save your current formatting as a reusable named style. Example: format a custom heading — font Calibri 14pt blue — and save as "My Heading" for consistent reuse throughout the document.</div></div>
+<div class="opt"><div class="opt-name">Modify Style</div><div class="opt-desc">Edit an existing style definition. Changes propagate to every paragraph using that style instantly — change one style, update the whole document.</div></div>
+<div class="opt"><div class="opt-name">Style Sets (via Design Tab)</div><div class="opt-desc">Named collections of styles that work together. Example: "Casual" set uses rounded fonts; "Formal" set uses serif fonts. Switching style sets updates all styled text at once.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔍 Editing</span><span class="grp-badge b-blue">3 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Find <span class="badge b-blue">Ctrl+F</span></div><div class="opt-desc">Opens Navigation Pane with search box. Highlights all matches in yellow. Supports: basic text, Match Case, Whole Words Only, Wildcards (*?), Sounds Like, Find All Word Forms. Use the arrow buttons to jump to each result.</div></div>
+<div class="opt"><div class="opt-name">Replace <span class="badge b-blue">Ctrl+H</span></div><div class="opt-desc">Find a term and replace with another. Replace (one at a time) or Replace All. Also supports formatting replacement — example: replace all red text with blue, or replace "colour" with "color" throughout. Use "More" for advanced options.</div></div>
+<div class="opt"><div class="opt-name">Select</div><div class="opt-desc">Dropdown: Select All (Ctrl+A), Select Objects (selects all floating images/shapes), Select All Text With Similar Formatting (selects every paragraph with the same style — useful for bulk reformatting).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🗣️ Voice (Microsoft 365)</span><span class="grp-badge b-green">2 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Dictate <span class="badge b-green">Alt+`</span></div><div class="opt-desc">Speak to type. Word converts speech to text in real time. Supports punctuation commands ("comma", "period", "new line"). Also supports multiple languages via the language dropdown in the Dictate toolbar.</div></div>
+<div class="opt"><div class="opt-name">Transcribe</div><div class="opt-desc">Upload an audio/video file or record directly — Word transcribes the full recording with speaker labeling. Transcription appears in a pane where you can insert quotes directly into your document.</div></div>
+</div></div>
+
+</div><!-- /home -->
+
+<!-- ═══════════ INSERT ═══════════ -->
+<div id="insert" class="sec">
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📄 Pages</span><span class="grp-badge b-blue">3 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Cover Page</div><div class="opt-desc">Inserts a predesigned, full-page cover at the start of the document. Choose from gallery: Austin, Banded, Facet, Ion, Motion, Retrospect, Whisp, etc. Includes placeholders for title, subtitle, date, author, company.</div></div>
+<div class="opt"><div class="opt-name">Blank Page</div><div class="opt-desc">Inserts a blank page at cursor position. Equivalent to inserting two manual page breaks. Useful for adding a blank separator between sections.</div></div>
+<div class="opt"><div class="opt-name">Page Break <span class="badge b-blue">Ctrl+Enter</span></div><div class="opt-desc">Forces content after the cursor to start on the next page. Best practice for starting new chapters — never use repeated Enter presses to push to next page.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📊 Tables</span><span class="grp-badge b-blue">5 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Insert Table (Grid)</div><div class="opt-desc">Hover over the grid to set columns × rows (up to 10×8 via grid; more via dialog). Inserts a basic table with equal column widths.</div></div>
+<div class="opt"><div class="opt-name">Insert Table (Dialog)</div><div class="opt-desc">Specify exact columns and rows (unlimited). Set column width: Fixed (custom width), AutoFit to Contents (shrinks/expands to content), AutoFit to Window (fills page width).</div></div>
+<div class="opt"><div class="opt-name">Draw Table</div><div class="opt-desc">Draw custom table boundaries with a pencil cursor. Drag to create outer border, then drag inside to add rows/columns. Good for irregular table layouts.</div></div>
+<div class="opt"><div class="opt-name">Convert Text to Table</div><div class="opt-desc">Select text separated by tabs, commas, or another delimiter → Word converts it into a table automatically. Example: paste CSV data → convert to table.</div></div>
+<div class="opt"><div class="opt-name">Quick Tables</div><div class="opt-desc">Gallery of prebuilt table formats: Calendar, Double Table, Matrix, Tabular List. Insert instantly with sample content.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🖼️ Illustrations</span><span class="grp-badge b-blue">6 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Pictures</div><div class="opt-desc">Insert image from: This Device (local file — BMP, PNG, JPG, GIF, SVG, TIFF, HEIC), Stock Images (Microsoft's licensed library), Online Pictures (Bing image search, OneDrive). After inserting, the Picture Format tab appears for editing.</div></div>
+<div class="opt"><div class="opt-name">Shapes</div><div class="opt-desc">Draw predefined shapes: Lines, Rectangles, Basic Shapes (circles, triangles, pentagons, stars, etc.), Block Arrows, Equation shapes, Flowchart shapes, Callouts, Banners. Each shape is editable (fill, outline, effects) and can contain text.</div></div>
+<div class="opt"><div class="opt-name">Icons</div><div class="opt-desc">Insert scalable vector icons from Microsoft's library (1000+). Searchable by category: People, Technology, Business, Animals, Food, etc. SVG format — fully scalable without quality loss. Recolor using Picture Format tab.</div></div>
+<div class="opt"><div class="opt-name">3D Models</div><div class="opt-desc">Insert animated or static 3D objects (.fbx, .obj, .3mf, or from Microsoft's online 3D library). Rotate and tilt in 3D space directly in the document. The 3D Model tab appears for animation and view controls.</div></div>
+<div class="opt"><div class="opt-name">SmartArt</div><div class="opt-desc">Visual diagrams for concepts: List, Process (step-by-step flow), Cycle, Hierarchy (org chart), Relationship, Matrix, Pyramid, Picture layouts. Type text into the pane on the left; shapes update automatically. Change colors and styles via SmartArt Design tab.</div></div>
+<div class="opt"><div class="opt-name">Chart</div><div class="opt-desc">Insert charts linked to an embedded Excel spreadsheet: Column, Line, Pie, Bar, Area, Scatter, Map, Stock, Surface, Radar, Treemap, Sunburst, Histogram, Box & Whisker, Waterfall, Funnel, Combo. Edit data in the pop-up Excel sheet.</div></div>
+<div class="opt"><div class="opt-name">Screenshot</div><div class="opt-desc">Capture any open window (shown as thumbnails) or draw a Screen Clipping of any part of your screen and insert it directly into the document.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔗 Links</span><span class="grp-badge b-blue">3 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Link (Hyperlink) <span class="badge b-blue">Ctrl+K</span></div><div class="opt-desc">Insert a hyperlink to: a website URL, a file on disk, an email address, or a specific location in the current document (e.g. a heading or bookmark). Display text can differ from the actual URL. Ctrl+click to follow a link.</div></div>
+<div class="opt"><div class="opt-name">Bookmark</div><div class="opt-desc">Tags a specific location or selection with a name. Then link to it via Hyperlink → Place in This Document. Example: bookmark the Appendix section → link to it from the table of contents.</div></div>
+<div class="opt"><div class="opt-name">Cross-reference</div><div class="opt-desc">Creates a dynamic reference to another part of the document: a heading, figure, table, footnote, equation, or bookmark. Auto-updates if numbering changes. Example: "see Table 3" — if table order changes, the number updates automatically.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">💬 Comments</span><span class="grp-badge b-green">2 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">New Comment <span class="badge b-blue">Ctrl+Alt+M</span></div><div class="opt-desc">Attaches a comment balloon to selected text. Shows author name, date, and the comment text in the margin. Other collaborators can reply to create a comment thread.</div></div>
+<div class="opt"><div class="opt-name">Threaded Comments</div><div class="opt-desc">In Microsoft 365, comments support @mentions (type @ to notify a collaborator) and reply chains. Comments can be marked as Resolved and hidden from view without deleting.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔖 Header & Footer</span><span class="grp-badge b-amber">5 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Header</div><div class="opt-desc">Adds text/content to the top margin area that repeats on every page. Gallery of built-in styles: Blank, Banded, Austin, Facet, etc. Can differ for first page (cover) and odd/even pages.</div></div>
+<div class="opt"><div class="opt-name">Footer</div><div class="opt-desc">Adds repeating content to the bottom margin. Same gallery and options as Header. Commonly used for page numbers, document title, date.</div></div>
+<div class="opt"><div class="opt-name">Page Number</div><div class="opt-desc">Inserts auto-updating page numbers: Top of Page, Bottom of Page, Page Margins, Current Position. Choose alignment (left/center/right) and style. Format Page Number: choose format (1, i, a), and set starting number (start at 0 for cover page).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📝 Text</span><span class="grp-badge b-blue">8 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Text Box</div><div class="opt-desc">Inserts a floating text container that can be positioned anywhere on the page, independent of body text flow. Gallery includes built-in sidebars, pull quotes, and simple text boxes. Right-click → Format Shape for fill, border, and text direction.</div></div>
+<div class="opt"><div class="opt-name">Quick Parts</div><div class="opt-desc">Reusable content blocks: Building Blocks (prebuilt content), AutoText (frequently typed phrases — save once, insert with 2 keystrokes), Document Properties (author, company, title fields), Fields (dynamic data like date, filename, page count).</div></div>
+<div class="opt"><div class="opt-name">WordArt</div><div class="opt-desc">Decorative text with visual styles — gradient fills, outlines, shadows, reflections, glow. Choose a style from the gallery, type your text. Use the Shape Format tab to transform (arch, wave, circle) the text path.</div></div>
+<div class="opt"><div class="opt-name">Drop Cap</div><div class="opt-desc">Enlarges the first letter of a paragraph to 2–3 lines tall, like a magazine opening. Options: Dropped (within text) or In Margin (beside text). Customize font, lines to drop, and distance from text.</div></div>
+<div class="opt"><div class="opt-name">Signature Line</div><div class="opt-desc">Inserts a formal signature placeholder with signer name, title, email, and instructions. Can be digitally signed using a digital certificate.</div></div>
+<div class="opt"><div class="opt-name">Date & Time</div><div class="opt-desc">Inserts current date and/or time in many formats. Check "Update automatically" to keep it current every time the document opens — useful for templates.</div></div>
+<div class="opt"><div class="opt-name">Object</div><div class="opt-desc">Embeds another file or creates a new OLE object: Excel spreadsheet, PowerPoint slide, Visio diagram, PDF, etc. Embed (stores copy in doc) or Link (updates when source changes). Display as icon option shows a clickable icon instead of the object content.</div></div>
+<div class="opt"><div class="opt-name">Equation <span class="badge b-blue">Alt+=</span></div><div class="opt-desc">Inserts a math equation editor. Built-in equations: Pythagorean theorem, quadratic formula, Fourier series, Taylor/binomial expansion, etc. Full LaTeX-like syntax support. Example: type <code>\sqrt</code> + space → inserts √ symbol.</div></div>
+<div class="opt"><div class="opt-name">Symbol</div><div class="opt-desc">Insert special characters not on the keyboard: ©, ®, ™, £, €, ±, ≠, π, Σ, ∞, arrows, fractions, etc. Recently Used Symbols list for quick reuse. Can assign custom keyboard shortcuts to frequently used symbols.</div></div>
+</div></div>
+
+</div><!-- /insert -->
+
+<!-- ═══════════ DRAW ═══════════ -->
+<div id="draw" class="sec">
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">✏️ Drawing Tools</span><span class="grp-badge b-purple">5 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Draw with Touch / Mouse</div><div class="opt-desc">Enables freehand drawing mode. Use finger, stylus, or mouse to draw directly on the document. Switch back to Select mode to interact with text. Ideal on touchscreen laptops and Surface devices.</div></div>
+<div class="opt"><div class="opt-name">Pens Gallery</div><div class="opt-desc">Choose from Pen (smooth strokes), Pencil (textured, sketchy), and Highlighter (transparent color). Customize each: color (16 per tool), thickness (0.25mm–6mm), and effects. Save custom pens to the gallery for quick reuse.</div></div>
+<div class="opt"><div class="opt-name">Eraser</div><div class="opt-desc">Three eraser modes: Small (precise, removes line segments), Medium, and Segment Eraser (removes a complete drawn stroke in one click). Drag over ink to erase.</div></div>
+<div class="opt"><div class="opt-name">Ink to Text / Ink to Shape</div><div class="opt-desc">Ink to Text: converts handwritten ink into typed text automatically. Ink to Shape: converts a drawn rough shape (circle, rectangle, arrow, triangle) into a clean, perfect shape. Great for diagramming on touchscreens.</div></div>
+<div class="opt"><div class="opt-name">Ink Replay</div><div class="opt-desc">Plays back the sequence of ink strokes in the document — like watching someone draw. Useful in educational documents or annotated presentations to show step-by-step drawing.</div></div>
+<div class="opt"><div class="opt-name">Rulers & Lasso Select</div><div class="opt-desc">Draw Ruler: places a virtual ruler on the page at any angle — draw perfectly straight lines along it. Lasso Select: draw a freeform loop to select specific ink strokes for moving, copying, or deleting.</div></div>
+</div></div>
+</div><!-- /draw -->
+
+<!-- ═══════════ DESIGN ═══════════ -->
+<div id="design" class="sec">
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🎨 Document Formatting</span><span class="grp-badge b-purple">5 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Themes</div><div class="opt-desc">A Theme is a coordinated set of fonts (heading + body), colors, and effects. Changing the theme updates the entire document's look instantly. Built-in: Office, Celestial, Facet, Integral, Ion, Retrospect, Slice, Wisp, Berlin, Depth, and more. Custom themes can be saved.</div></div>
+<div class="opt"><div class="opt-name">Style Sets</div><div class="opt-desc">Gallery of predefined combinations of Heading and Normal styles. Example: "Basic (Elegant)" uses serif fonts with wide spacing; "Shaded" uses colored heading backgrounds. Switching updates all styled text immediately without changing content.</div></div>
+<div class="opt"><div class="opt-name">Colors</div><div class="opt-desc">12 preset color palettes (Office, Blue Warm, Blue, Blue II, Blue Green, Green, Green Yellow, Yellow, Yellow Orange, Orange, Orange Red, Red Orange, Red, Red Violet, Violet, Violet II, Grayscale, Paper, Aspect, Civic, Concourse…). Each palette sets 10 theme colors used by fonts, shapes, and SmartArt throughout the document.</div></div>
+<div class="opt"><div class="opt-name">Fonts</div><div class="opt-desc">Sets the heading/body font pair for the document theme. Examples: Calibri Light / Calibri (Office default), Gill Sans / Gill Sans (Arial), Georgia / Calibri (Casual), etc. One click changes all headings and body text to the new pair.</div></div>
+<div class="opt"><div class="opt-name">Paragraph Spacing</div><div class="opt-desc">Presets for spacing before/after paragraphs and line spacing: No Paragraph Space, Compact, Tight, Open, Relaxed, Double. Example: "Open" gives breathing room between paragraphs; "Compact" fits more on the page.</div></div>
+<div class="opt"><div class="opt-name">Effects</div><div class="opt-desc">Sets the visual effect style for shapes and SmartArt: subtle shadows, reflections, glows, bevels. Example: "Glossy" effects add shine to inserted shapes; "Flat" keeps shapes clean.</div></div>
+<div class="opt"><div class="opt-name">Set as Default</div><div class="opt-desc">Saves the current theme, style set, colors, fonts, spacing, and effects as the default for all new documents created using the current template (usually Normal.dotm).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🖼️ Page Background</span><span class="grp-badge b-blue">3 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Watermark</div><div class="opt-desc">Places faint text or image behind all document content. Built-in text watermarks: CONFIDENTIAL, DO NOT COPY, DRAFT, SAMPLE, URGENT, ASAP. Custom: type any text, set font/size/color/angle, or use a custom image (company logo, faded). Does not print as part of page content — appears behind text.</div></div>
+<div class="opt"><div class="opt-name">Page Color</div><div class="opt-desc">Sets the background color of the entire document. Useful for digital documents or branded reports. Choose from theme colors, standard colors, or a fill effect (gradient, texture, pattern, or picture). Note: page color does not print by default unless "Print Background Colors and Images" is enabled in Word Options.</div></div>
+<div class="opt"><div class="opt-name">Page Borders</div><div class="opt-desc">Adds a decorative or formal border around each page. Options: box, shadow, 3-D, custom. Line style (solid, dashed, dotted), line color, line width (¼pt to 6pt), and Art borders (stars, trees, hearts, holly — for certificates, invitations). Set which pages and which edges show the border.</div></div>
+</div></div>
+</div><!-- /design -->
+
+<!-- ═══════════ LAYOUT ═══════════ -->
+<div id="layout" class="sec">
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📐 Page Setup</span><span class="grp-badge b-blue">6 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Margins</div><div class="opt-desc">Sets the blank space around the page edges. Presets: Normal (2.54cm all sides), Narrow (1.27cm), Moderate, Wide, Mirrored (for books — inside/outside). Custom Margins dialog: set Top, Bottom, Left, Right, Gutter (binding space), Mirror Margins (for duplex printing), Pages Per Sheet.</div></div>
+<div class="opt"><div class="opt-name">Orientation</div><div class="opt-desc">Portrait (taller than wide — default) or Landscape (wider than tall). Can apply to individual sections of a document using section breaks.</div></div>
+<div class="opt"><div class="opt-name">Size</div><div class="opt-desc">Paper size presets: A4 (21×29.7cm), Letter (21.59×27.94cm), Legal, A3, A5, Executive, B5, Envelope sizes. More Paper Sizes dialog for custom dimensions.</div></div>
+<div class="opt"><div class="opt-name">Columns</div><div class="opt-desc">Divides page into multiple text columns: One, Two, Three, Left (narrow left + wide right), Right (wide left + narrow right). More Columns: set exact number, width, spacing, and line between columns. Apply to whole document or selected text.</div></div>
+<div class="opt"><div class="opt-name">Breaks</div><div class="opt-desc">Page Breaks: Page (next page), Column (next column), Text Wrapping (inline image break). Section Breaks: Next Page (new section on new page), Continuous (new section same page), Even/Odd Page (section starts on even/odd page). Section breaks allow different margins, orientation, columns, headers/footers per section.</div></div>
+<div class="opt"><div class="opt-name">Line Numbers</div><div class="opt-desc">Adds sequential numbers to each line of text in the margin. Options: Continuous (1 to end), Restart Each Page, Restart Each Section, Suppress for Current Paragraph. Commonly used in legal documents, scripts, and academic papers.</div></div>
+<div class="opt"><div class="opt-name">Hyphenation</div><div class="opt-desc">Automatically or manually breaks long words across line endings to reduce ragged edges, especially in narrow columns. Automatic: Word decides. Manual: Word asks before each hyphen. Settings: hyphenation zone, limit consecutive hyphens.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">¶ Paragraph (Spacing & Indent)</span><span class="grp-badge b-blue">4 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Indent Left / Right</div><div class="opt-desc">Shifts the paragraph body left or right from the margin (in cm). Positive = inward. Example: Left indent 1.27cm for a block quote.</div></div>
+<div class="opt"><div class="opt-name">Spacing Before / After</div><div class="opt-desc">Adds space (in pt) above or below a paragraph. Better practice than pressing Enter twice — avoids accidental double spacing and respects style definitions. Example: 12pt spacing after headings.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🖼️ Arrange</span><span class="grp-badge b-amber">7 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Position</div><div class="opt-desc">Sets the position of a selected object on the page: 9 fixed positions (top-left, top-center, top-right, middle-*, bottom-*) with automatic text wrapping. Objects snap to the selected position.</div></div>
+<div class="opt"><div class="opt-name">Wrap Text</div><div class="opt-desc">Controls how body text flows around an object: In Line with Text (object treated as a character), Square (text wraps in a square around object), Tight (text follows object's shape), Through (text flows through transparent areas), Top and Bottom (text above and below only), Behind Text (object behind text — no wrapping), In Front of Text (object on top, covers text). Edit Wrap Points: drag custom wrap boundary.</div></div>
+<div class="opt"><div class="opt-name">Bring Forward / Send Backward</div><div class="opt-desc">Controls the stacking order when objects overlap. Bring Forward (one step), Bring to Front (topmost layer), Send Backward (one step), Send to Back (bottommost layer). Example: bring a text box in front of an image.</div></div>
+<div class="opt"><div class="opt-name">Selection Pane</div><div class="opt-desc">Lists all objects on the page in a sidebar with their names. Click to select, drag to reorder layers, click the eye icon to show/hide. Essential for complex layouts with many overlapping objects.</div></div>
+<div class="opt"><div class="opt-name">Align</div><div class="opt-desc">Aligns selected objects relative to each other or the page: Align Left, Center, Right (horizontal), Align Top, Middle, Bottom (vertical), Distribute Horizontally/Vertically (equal spacing between multiple objects). Align to Page vs Align to Margin.</div></div>
+<div class="opt"><div class="opt-name">Group / Ungroup</div><div class="opt-desc">Combines multiple selected objects into a single group — move, resize, and format them together. Ungroup splits them back. Example: group a shape + text box + icon into one moveable unit.</div></div>
+<div class="opt"><div class="opt-name">Rotate</div><div class="opt-desc">Rotate Right 90°, Rotate Left 90°, Flip Horizontal, Flip Vertical, More Rotation Options (type exact degrees). Example: flip an arrow shape to point the other direction.</div></div>
+</div></div>
+</div><!-- /layout -->
+
+<!-- ═══════════ REFERENCES ═══════════ -->
+<div id="references" class="sec">
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📑 Table of Contents</span><span class="grp-badge b-blue">3 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Table of Contents</div><div class="opt-desc">Auto-generates a TOC from Heading styles (Heading 1, 2, 3…). Built-in formats: Automatic Table 1, Automatic Table 2 (includes dot leaders and page numbers), Manual Table (fill in yourself). Update TOC (F9) refreshes page numbers and new headings. Custom: choose heading levels, tab leader style (dots, dashes, lines), and format.</div></div>
+<div class="opt"><div class="opt-name">Add Text</div><div class="opt-desc">Marks the current paragraph as a TOC entry at a specific level (Level 1, 2, 3) or removes it from the TOC — without actually applying a Heading style. Useful for including non-heading text in the TOC.</div></div>
+<div class="opt"><div class="opt-name">Update Table</div><div class="opt-desc">Refreshes the TOC. Two options: Update Page Numbers Only (faster — just fixes page numbers), Update Entire Table (rebuilds from scratch — use when headings change).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📝 Footnotes & Endnotes</span><span class="grp-badge b-blue">4 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Insert Footnote <span class="badge b-blue">Ctrl+Alt+F</span></div><div class="opt-desc">Adds a superscript number at the cursor position and a corresponding note at the bottom of the page. Auto-numbered and auto-renumbered when you add/remove footnotes. Footnotes stay on the same page as their reference.</div></div>
+<div class="opt"><div class="opt-name">Insert Endnote <span class="badge b-blue">Ctrl+Alt+D</span></div><div class="opt-desc">Same as footnote but note appears at the end of the document (or end of section). Used in academic papers for citations that don't need to be on the same page.</div></div>
+<div class="opt"><div class="opt-name">Next Footnote / Show Notes</div><div class="opt-desc">Navigate between footnote/endnote references. Show Notes scrolls to the note area. Footnote & Endnote dialog: set number format (1,2,3 / a,b,c / i,ii,iii), starting number, restart behavior (per page, per section, or continuous), and convert footnotes to endnotes.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📚 Citations & Bibliography</span><span class="grp-badge b-amber">5 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Insert Citation</div><div class="opt-desc">Adds an in-text citation (e.g. (Smith, 2021) or [1]) linked to a source in your bibliography. Add New Source: enter Author, Title, Year, Publisher, URL, DOI, etc. Add New Placeholder: marks a citation to fill in later.</div></div>
+<div class="opt"><div class="opt-name">Manage Sources</div><div class="opt-desc">Opens the Source Manager with two lists: Master List (all sources ever used on the computer) and Current List (sources in this document). Copy sources between lists, edit, delete, and preview the citation format.</div></div>
+<div class="opt"><div class="opt-name">Style (Citation Style)</div><div class="opt-desc">Dropdown to choose citation format: APA (7th ed.), MLA (8th ed.), Chicago, Harvard, IEEE, Vancouver, Turabian, GB7714, APA6, and more. Changing style instantly reformats all citations and the bibliography.</div></div>
+<div class="opt"><div class="opt-name">Bibliography</div><div class="opt-desc">Inserts a formatted list of all cited sources at the end of the document. Auto-generated from your sources list. Gallery: Bibliography (heading), References (heading), Works Cited (heading). Updates automatically when sources are added/changed.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔖 Captions</span><span class="grp-badge b-blue">4 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Insert Caption</div><div class="opt-desc">Adds a numbered label below (or above) tables, figures, or equations. Auto-numbering (Figure 1, Figure 2…). Labels: Figure, Table, Equation — or create custom labels. Format: "Figure 1: Description of the image." Numbers update when you add or remove captioned items.</div></div>
+<div class="opt"><div class="opt-name">Insert Table of Figures</div><div class="opt-desc">Generates a list of all figures/tables/equations with captions and page numbers — similar to a TOC but for images and tables. Essential in long academic reports and theses.</div></div>
+<div class="opt"><div class="opt-name">Update Table (of Figures)</div><div class="opt-desc">Refreshes the Table of Figures when captions are added, renamed, or pages change. Same options as TOC update: numbers only or entire table.</div></div>
+<div class="opt"><div class="opt-name">Cross-reference</div><div class="opt-desc">Inserts a dynamic reference to a caption elsewhere in the document. Example: "See Figure 3" — if it becomes Figure 4 later, the cross-reference updates automatically via F9.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📇 Index</span><span class="grp-badge b-blue">3 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Mark Entry <span class="badge b-blue">Ctrl+Shift+X</span></div><div class="opt-desc">Tags selected text as an index entry. Options: main entry, subentry, cross-reference ("See also…"), page range. Mark All marks every occurrence of the word throughout the document.</div></div>
+<div class="opt"><div class="opt-name">Insert Index</div><div class="opt-desc">Generates a formatted alphabetical index from all marked entries, with page numbers. Formats: Indented (subentries indented), Run-in (subentries on same line). Customize columns, language, and tab leader.</div></div>
+<div class="opt"><div class="opt-name">Update Index</div><div class="opt-desc">Refreshes the index after adding or editing mark entries. Click anywhere in the index then Update Index, or press F9.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">⚖️ Table of Authorities</span><span class="grp-badge b-purple">2 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Mark Citation <span class="badge b-blue">Ctrl+Shift+I</span></div><div class="opt-desc">Marks legal citations (cases, statutes, regulations, treatises) for inclusion in a Table of Authorities. Used in legal documents, briefs, and court filings.</div></div>
+<div class="opt"><div class="opt-name">Insert Table of Authorities</div><div class="opt-desc">Creates a formatted list of all cited legal authorities grouped by category (Cases, Statutes, Rules, Regulations, etc.) with page numbers.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📖 Research (Microsoft 365)</span><span class="grp-badge b-green">2 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Researcher</div><div class="opt-desc">Opens a pane to search for reliable sources (Bing-powered academic search). View articles, websites, and images. Add a quote directly to the document with a citation already formatted. Keeps a source list automatically.</div></div>
+<div class="opt"><div class="opt-name">Smart Lookup / Editor</div><div class="opt-desc">Right-click any word → Smart Lookup shows definitions, Wikipedia info, and web results in a sidebar without leaving Word. Editor provides writing suggestions beyond spell-check: clarity, conciseness, formality, punctuation, inclusive language.</div></div>
+</div></div>
+</div><!-- /references -->
+
+<!-- ═══════════ MAILINGS ═══════════ -->
+<div id="mailings" class="sec">
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">✉️ Create</span><span class="grp-badge b-blue">2 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Envelopes</div><div class="opt-desc">Creates a formatted envelope ready to print. Enter delivery address and return address. Choose envelope size (C5, C6, DL, #10, #9, #6¾…) and feeding method (how the envelope goes into the printer tray). Preview shows correct orientation. Add to Document adds the envelope as page 1.</div></div>
+<div class="opt"><div class="opt-name">Labels</div><div class="opt-desc">Prints address labels or other content on label sheets. Choose label brand (Avery, 3M, etc.) and product number to match your label sheet layout. Print one label, a full sheet of the same label, or use a mail merge for different labels. Supports QR codes and logos.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📬 Mail Merge (Start)</span><span class="grp-badge b-amber">4 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Start Mail Merge</div><div class="opt-desc">Begins the mail merge process. Choose document type: Letters (one letter per record), Email Messages, Envelopes, Labels, Directory (a list/catalog). Step-by-Step Mail Merge Wizard guides through the entire process in a sidebar.</div></div>
+<div class="opt"><div class="opt-name">Select Recipients</div><div class="opt-desc">Link the document to a data source. Options: Type a New List (create a table of recipients in Word), Use an Existing List (.xlsx, .csv, .mdb, SQL database, Outlook contacts), Choose from Outlook Contacts. Word reads each row as one recipient.</div></div>
+<div class="opt"><div class="opt-name">Edit Recipient List</div><div class="opt-desc">Opens the Mail Merge Recipients dialog. Sort (A–Z by last name), Filter (only send to customers in Mumbai), Find duplicates, Validate addresses. Check/uncheck rows to include/exclude specific recipients.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🏷️ Write & Insert Fields</span><span class="grp-badge b-blue">6 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Highlight Merge Fields</div><div class="opt-desc">Shades all merge fields in the document in gray so you can see where dynamic data will appear. Toggle on/off.</div></div>
+<div class="opt"><div class="opt-name">Address Block</div><div class="opt-desc">Inserts a composite field that combines Name, Company, Street, City, State, ZIP, Country in standard address format. Map Fields to link to your data columns (e.g. "FirstName" → "First Name" column).</div></div>
+<div class="opt"><div class="opt-name">Greeting Line</div><div class="opt-desc">Inserts a salutation like "Dear Mr. Smith," or "Dear John,". Customize: Mr./Ms./Mrs./Dr. + last name, first name, full name, or informal. Set fallback for unknown names ("Dear Customer,").</div></div>
+<div class="opt"><div class="opt-name">Insert Merge Field</div><div class="opt-desc">Inserts any single field from your data source at the cursor position. Example: place «City», «Product», «OrderTotal» exactly where needed in your letter template. Fields display as «FieldName» in edit mode.</div></div>
+<div class="opt"><div class="opt-name">Rules</div><div class="opt-desc">Insert conditional logic into the merge: If…Then…Else (print "Sir" if gender = Male else "Madam"), Fill-in (prompt for input during merge), Merge Record # (inserts the current record number), Skip Record If (skip a record if condition met), Set Bookmark, Next Record.</div></div>
+<div class="opt"><div class="opt-name">Match Fields</div><div class="opt-desc">Maps Word's standard field names to your data source column names when they don't match automatically. Example: your spreadsheet has "Surname" but Word expects "Last Name" — match them here.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">👁️ Preview & Finish</span><span class="grp-badge b-green">4 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Preview Results</div><div class="opt-desc">Toggles between merge field view («FirstName») and live data view (actual names from spreadsheet). Use the arrow buttons to flip through each recipient's version of the document.</div></div>
+<div class="opt"><div class="opt-name">Find Recipient</div><div class="opt-desc">Search through the recipient list to jump directly to a specific record. Example: find "John Smith" to preview exactly how his letter looks before printing.</div></div>
+<div class="opt"><div class="opt-name">Auto Check for Errors</div><div class="opt-desc">Simulates the merge and reports any errors (missing fields, incorrect data type) before printing. Three modes: Simulate merge only (report only), Pause and report errors, Complete merge and report errors in a new document.</div></div>
+<div class="opt"><div class="opt-name">Finish & Merge</div><div class="opt-desc">Three final options: Edit Individual Documents (creates one combined .docx with all merged letters — safe to review before printing), Print Documents (sends all directly to printer), Send Email Messages (sends each as an email via Outlook — set subject line and email field).</div></div>
+</div></div>
+</div><!-- /mailings -->
+
+<!-- ═══════════ REVIEW ═══════════ -->
+<div id="review" class="sec">
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📝 Proofing</span><span class="grp-badge b-blue">6 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Spelling & Grammar <span class="badge b-blue">F7</span></div><div class="opt-desc">Checks the entire document for spelling errors (red underline) and grammar issues (blue underline). Opens the Editor pane in Microsoft 365. Suggestions shown with one-click fix, Ignore, Ignore All, Add to Dictionary options.</div></div>
+<div class="opt"><div class="opt-name">Editor (Microsoft 365)</div><div class="opt-desc">Advanced AI writing assistant. Checks: Spelling, Grammar, Clarity, Conciseness, Formality, Punctuation Conventions, Inclusive Language, Similarity (plagiarism-like check vs. web content). Shows overall score. Navigate through each category of suggestions.</div></div>
+<div class="opt"><div class="opt-name">Thesaurus <span class="badge b-blue">Shift+F7</span></div><div class="opt-desc">Right-click a word → Synonyms, or open the full Thesaurus pane. Shows synonyms grouped by meaning. Click a synonym to replace. Also shows antonyms.</div></div>
+<div class="opt"><div class="opt-name">Word Count <span class="badge b-blue">Ctrl+Shift+G</span></div><div class="opt-desc">Shows: Pages, Words, Characters (with/without spaces), Paragraphs, Lines. Can count selected text only. Word count also always shown in the status bar at the bottom of the Word window.</div></div>
+<div class="opt"><div class="opt-name">Check Accessibility</div><div class="opt-desc">Opens Accessibility Checker pane. Scans for issues that would hinder users with disabilities: missing alt text on images, low color contrast, tables without headers, unclear hyperlink text. Provides fix suggestions.</div></div>
+<div class="opt"><div class="opt-name">Check Compatibility</div><div class="opt-desc">Identifies features in the document that are not supported in older Word versions (Word 97–2003, 2007, 2010). Example: SmartArt or content controls may not render correctly in Word 2003.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🌐 Language</span><span class="grp-badge b-blue">3 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Translate</div><div class="opt-desc">Translate Document: sends entire document to Microsoft Translator and returns a translated copy. Translate Selection: translates highlighted text and shows in a Mini Translator popup. Supports 70+ languages.</div></div>
+<div class="opt"><div class="opt-name">Language (Set Proofing Language)</div><div class="opt-desc">Sets the language for spelling/grammar checking on selected text. Example: mark a French paragraph as French — Word uses French dictionary for it. "Do not check spelling or grammar" option disables proofing for selected text (useful for code blocks, product names).</div></div>
+<div class="opt"><div class="opt-name">Language Preferences</div><div class="opt-desc">Opens Word Options → Language. Set Office Display Language, Office Authoring Language & Proofing, and install additional dictionaries/language packs.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">💬 Comments</span><span class="grp-badge b-green">6 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">New Comment <span class="badge b-blue">Ctrl+Alt+M</span></div><div class="opt-desc">Inserts a comment balloon attached to selected text. Comment shows: author name (from Word account), timestamp, and text. Other users can reply to form a thread.</div></div>
+<div class="opt"><div class="opt-name">Delete Comment</div><div class="opt-desc">Delete (current comment), Delete All Comments in Document, Delete All Comments Shown (only visible/filtered ones). Right-click comment → Delete Comment for individual deletion.</div></div>
+<div class="opt"><div class="opt-name">Previous / Next Comment</div><div class="opt-desc">Navigate between comments in the document sequentially. Useful for reviewing long documents with many comments.</div></div>
+<div class="opt"><div class="opt-name">Show Comments</div><div class="opt-desc">Toggle comment visibility. Show Comments panel displays them in a sidebar. Simple Markup shows comments as small icons; All Markup shows full balloons; No Markup hides all. Show Specific Markup filters by author or type.</div></div>
+<div class="opt"><div class="opt-name">Resolve / Reopen</div><div class="opt-desc">Mark a comment thread as Resolved — it grays out and hides but is not deleted. Reopen brings it back. Useful for tracking which feedback has been actioned.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔄 Tracking</span><span class="grp-badge b-amber">6 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Track Changes <span class="badge b-blue">Ctrl+Shift+E</span></div><div class="opt-desc">Records every edit made to the document: insertions (underlined), deletions (strikethrough), formatting changes, and moves. Each change shows the author's name and timestamp. Essential for collaborative editing and document review.</div></div>
+<div class="opt"><div class="opt-name">Show Markup</div><div class="opt-desc">Filter which changes are shown: Comments, Insertions/Deletions, Formatting, Balloons (show changes in margin vs inline), Specific People (show only one reviewer's changes). Combined with All Markup / Simple Markup / No Markup / Original views.</div></div>
+<div class="opt"><div class="opt-name">Reviewing Pane</div><div class="opt-desc">Opens a list of all tracked changes and comments in a sidebar (vertical) or at the bottom (horizontal). Shows count of each type. Click an item to jump to it.</div></div>
+<div class="opt"><div class="opt-name">Accept</div><div class="opt-desc">Accept Change (current), Accept All Changes (accept everything at once), Accept All Changes and Stop Tracking, Accept All Changes Shown (only filtered ones). Accepted changes become permanent.</div></div>
+<div class="opt"><div class="opt-name">Reject</div><div class="opt-desc">Reject Change (reverts current change), Reject All Changes, Reject All Changes and Stop Tracking. Rejected insertions are removed; rejected deletions are restored.</div></div>
+<div class="opt"><div class="opt-name">Change Tracking Options</div><div class="opt-desc">Customize how tracked changes appear: color per author vs by change type, markup type (strikethrough, double strikethrough, hidden), and show changed lines in the margin.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔁 Compare</span><span class="grp-badge b-purple">2 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Compare</div><div class="opt-desc">Compares two versions of a document and creates a third document showing all differences as tracked changes. Choose original and revised document. Options: show changes at character or word level; choose which types of changes to mark.</div></div>
+<div class="opt"><div class="opt-name">Combine</div><div class="opt-desc">Merges tracked changes from multiple reviewers into a single document. Used when several people edited the same original document simultaneously and you need all their changes in one file.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔒 Protect</span><span class="grp-badge b-red">3 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Block Authors</div><div class="opt-desc">In a shared document (SharePoint/OneDrive), locks sections so only the author who blocked them can edit. Other collaborators see the section as read-only. Requires a shared location.</div></div>
+<div class="opt"><div class="opt-name">Restrict Editing</div><div class="opt-desc">Opens Restrict Editing pane with three protection types: Formatting Restrictions (limit which styles can be applied), Editing Restrictions (No changes/Read only, Tracked Changes only, Comments only, Filling in Forms only), Exceptions (allow specific users to edit protected sections). Enforce protection with a password.</div></div>
+<div class="opt"><div class="opt-name">Hide Ink</div><div class="opt-desc">Hides all ink annotations (drawn with the Draw tab) without deleting them. Useful when presenting the document and you want a clean view, or before sharing.</div></div>
+</div></div>
+</div><!-- /review -->
+
+<!-- ═══════════ VIEW ═══════════ -->
+<div id="view" class="sec">
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">👁️ Views</span><span class="grp-badge b-blue">7 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Print Layout (default)</div><div class="opt-desc">Shows the document exactly as it will print — with page margins, headers/footers, and page breaks visible. The most commonly used view for document creation.</div></div>
+<div class="opt"><div class="opt-name">Read Mode</div><div class="opt-desc">Optimized for reading — hides the ribbon, maximizes content area, and displays text in columns. Navigation via arrow keys or mouse. Supports highlighting and comments in read mode. Use Esc to exit.</div></div>
+<div class="opt"><div class="opt-name">Web Layout</div><div class="opt-desc">Shows how the document will look as a web page — no page breaks, text reflows to fill the window. Use when saving the document as HTML for a website.</div></div>
+<div class="opt"><div class="opt-name">Outline View</div><div class="opt-desc">Displays document structure as a hierarchical outline using heading levels. Collapse/expand sections. Promote/demote headings (change from H2 to H1). Drag headings to reorder entire sections. Essential for structuring long documents.</div></div>
+<div class="opt"><div class="opt-name">Draft View</div><div class="opt-desc">Simplified view — no margins, headers/footers, images (shows placeholder), or page breaks shown as they appear. Fastest scrolling view — useful for editing large text-heavy documents with no distractions.</div></div>
+<div class="opt"><div class="opt-name">Focus Mode</div><div class="opt-desc">Hides everything except the document — no ribbon, taskbar, or other windows. Completely distraction-free writing. Press Esc to exit. Introduced in Microsoft 365.</div></div>
+<div class="opt"><div class="opt-name">Immersive Reader</div><div class="opt-desc">Designed for accessibility and learning differences (dyslexia, etc.). Features: Column Width (narrow text), Page Color (sepia, rose, blue), Text Spacing, Syllables (breaks words), Read Aloud (text-to-speech with word highlighting), Line Focus (focus on 1, 3, or 5 lines at a time), Picture Dictionary (click word for image).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📊 Show</span><span class="grp-badge b-blue">4 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Ruler</div><div class="opt-desc">Shows horizontal and vertical rulers at the edges of the document. Used to set tab stops, indents, and margins by dragging. Double-click the ruler to open Page Setup dialog.</div></div>
+<div class="opt"><div class="opt-name">Gridlines</div><div class="opt-desc">Displays a grid over the document for aligning objects, images, and text boxes. Grid does not print. Set grid spacing in Layout → Arrange → Align → Grid Settings.</div></div>
+<div class="opt"><div class="opt-name">Navigation Pane <span class="badge b-blue">Ctrl+F</span></div><div class="opt-desc">Opens a sidebar with three tabs: Headings (document outline — click to jump), Pages (thumbnail view of all pages), Results (search results). Drag headings in the Headings tab to reorder entire sections.</div></div>
+<div class="opt"><div class="opt-name">Thumbnails</div><div class="opt-desc">Deprecated in newer versions — replaced by the Pages tab in Navigation Pane. Showed mini previews of all pages in a sidebar.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🔍 Zoom</span><span class="grp-badge b-green">5 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Zoom <span class="badge b-blue">Ctrl+Mouse Wheel</span></div><div class="opt-desc">Opens Zoom dialog: choose preset percentage or type custom %. Options: Page Width (fits full page width), Text Width (fits the text area), Whole Page (one full page visible), Many Pages (see multiple pages at once, e.g. 2×3 grid).</div></div>
+<div class="opt"><div class="opt-name">100%</div><div class="opt-desc">Resets zoom to 100% (actual size). Useful after zooming in/out to return to the standard view.</div></div>
+<div class="opt"><div class="opt-name">One Page / Multiple Pages / Page Width</div><div class="opt-desc">One Page: zooms so one full page fits the screen. Multiple Pages: shows 2+ pages side by side. Page Width: zooms so the page fills the screen horizontally — the most used zoom preset.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🪟 Window</span><span class="grp-badge b-amber">6 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">New Window</div><div class="opt-desc">Opens a second window showing the same document (e.g. "Report.docx:1" and "Report.docx:2"). Both windows show the same file — editing in one updates the other. Good for working on two parts of a long document simultaneously.</div></div>
+<div class="opt"><div class="opt-name">Arrange All</div><div class="opt-desc">Tiles all open Word windows horizontally so they all fit on screen at once. Useful when comparing multiple documents side by side.</div></div>
+<div class="opt"><div class="opt-name">Split <span class="badge b-blue">Ctrl+Alt+S</span></div><div class="opt-desc">Splits the current window into two panes showing the same document. Each pane scrolls independently. View two parts of the same document at once — e.g. chapter 1 in top pane, chapter 10 in bottom pane.</div></div>
+<div class="opt"><div class="opt-name">View Side by Side</div><div class="opt-desc">Places two open documents next to each other for comparison. Enables Synchronous Scrolling — scrolling one document scrolls the other at the same time. Reset Window Position aligns them evenly.</div></div>
+<div class="opt"><div class="opt-name">Switch Windows</div><div class="opt-desc">Dropdown of all currently open Word documents. Click to switch active window. Equivalent to using the Windows taskbar.</div></div>
+<div class="opt"><div class="opt-name">Macros <span class="badge b-blue">Alt+F8</span></div><div class="opt-desc">View Macros: open macro list. Record Macro: record a sequence of actions to replay. Stop Recording. Pause Recording. Organizer: copy macros between documents. The macro dialog is shared with the Developer tab.</div></div>
+</div></div>
+</div><!-- /view -->
+
+<!-- ═══════════ DEVELOPER ═══════════ -->
+<div id="developer" class="sec">
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">💻 Code</span><span class="grp-badge b-purple">3 options</span><span class="chevron open">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Visual Basic <span class="badge b-purple">Alt+F11</span></div><div class="opt-desc">Opens the Visual Basic for Applications (VBA) IDE — a full code editor for writing Word macros and automation scripts. Write Sub procedures to automate repetitive tasks: batch-format headings, auto-generate tables, process data, send emails via Outlook. Supports full VBA language with loops, conditions, objects, and the Word object model.</div></div>
+<div class="opt"><div class="opt-name">Macros <span class="badge b-blue">Alt+F8</span></div><div class="opt-desc">Open, edit, run, step through, or delete macros. Create new macros. Organizer lets you copy macros between documents and templates. Macros are stored in the document itself, the Normal template, or a custom template.</div></div>
+<div class="opt"><div class="opt-name">Record Macro</div><div class="opt-desc">Records your keystrokes and mouse clicks as a VBA macro. Name the macro, assign to a button or keyboard shortcut, and choose where to store it. Example: record the steps to apply your custom heading style, insert a company logo, and add a footer — then replay with one click.</div></div>
+<div class="opt"><div class="opt-name">Macro Security</div><div class="opt-desc">Sets the macro trust level: Disable all macros (safest), Disable with notification (prompt before running), Enable all (unsafe — only for trusted files). Also manages Trusted Locations and Trusted Publishers (digital certificate authorities).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">📦 Add-ins</span><span class="grp-badge b-blue">3 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Add-ins (Store)</div><div class="opt-desc">Browse and install Office Add-ins from Microsoft AppSource. Add-ins extend Word with new functionality — language tools, citation managers (Zotero, Mendeley), PDF tools, translation services, data connectors. Add-ins run in a web panel inside Word.</div></div>
+<div class="opt"><div class="opt-name">My Add-ins</div><div class="opt-desc">View and manage installed add-ins. Remove or load/unload add-ins without uninstalling. COM Add-ins (legacy .dll based) and Web Add-ins (modern JavaScript-based) both managed here.</div></div>
+<div class="opt"><div class="opt-name">Word Add-ins / COM Add-ins</div><div class="opt-desc">Load legacy add-ins (.dot, .wll, .dll) developed for older Word versions. COM Add-ins are deeper integrations — bibliographic tools, PDF creators, and accessibility plugins commonly use COM. Manage load behavior (startup vs manual).</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🎛️ Controls</span><span class="grp-badge b-amber">8 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Rich Text Content Control</div><div class="opt-desc">A placeholder that accepts any formatted text. Used in templates — users can type or paste into the control without touching surrounding document structure. Shows a blue bracket boundary.</div></div>
+<div class="opt"><div class="opt-name">Plain Text Content Control</div><div class="opt-desc">Like Rich Text but accepts plain text only — no formatting inside. Useful for form fields like Name, ID Number, Reference Code.</div></div>
+<div class="opt"><div class="opt-name">Picture Content Control</div><div class="opt-desc">A placeholder for an image. Users click the icon to insert a picture. Used in templates for logo placeholders, profile photos, etc.</div></div>
+<div class="opt"><div class="opt-name">Building Block Gallery Control</div><div class="opt-desc">Inserts a dropdown gallery of Building Blocks (reusable content). Users pick a prebuilt block to insert. Example: a gallery of company letterhead variants to choose from.</div></div>
+<div class="opt"><div class="opt-name">Check Box Content Control</div><div class="opt-desc">Inserts a clickable checkbox in the document. Users click to check/uncheck. Used in digital forms, checklists, and surveys. Example: ☑ Agree to Terms.</div></div>
+<div class="opt"><div class="opt-name">Combo Box / Drop-Down List Content Control</div><div class="opt-desc">Combo Box: user can pick from a list OR type a custom value. Drop-Down List: user can only pick from the list — no custom entry. Populate the list via Control Properties.</div></div>
+<div class="opt"><div class="opt-name">Date Picker Content Control</div><div class="opt-desc">Shows a calendar popup for the user to pick a date. Set the display format (dd/MM/yyyy, MMMM d, yyyy, etc.) in Properties. Used in forms for invoice dates, expiry dates, appointment dates.</div></div>
+<div class="opt"><div class="opt-name">Design Mode</div><div class="opt-desc">Toggle Design Mode ON to edit the structure of content controls (placeholder text, properties, tags). Design Mode OFF lets you interact with controls as a user would (click checkboxes, pick dates, type in fields).</div></div>
+<div class="opt"><div class="opt-name">Properties</div><div class="opt-desc">Opens Content Control Properties: Title (label shown above the control), Tag (for VBA reference), Color, Locking (cannot be deleted, cannot edit contents), and control-specific settings (list items for dropdowns, date format for date pickers).</div></div>
+<div class="opt"><div class="opt-name">Group</div><div class="opt-desc">Groups selected content controls and text so the region cannot be edited or deleted unless ungrouped. Protects template sections that should not be modified by end users.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🗂️ Mapping & XML</span><span class="grp-badge b-purple">3 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">XML Mapping Pane</div><div class="opt-desc">Links content controls to custom XML data stored inside the .docx file. When the XML changes programmatically, the linked content controls update automatically. Used in enterprise document automation systems.</div></div>
+<div class="opt"><div class="opt-name">Schema</div><div class="opt-desc">Attach a custom XML Schema (.xsd) to validate the XML structure in the document. Marks invalid elements. Used in compliance workflows where document data must match a defined data model.</div></div>
+<div class="opt"><div class="opt-name">Expansion Packs</div><div class="opt-desc">Associate Smart Tag expansion packs — links terms in the document to external data sources or services. Legacy feature from Office 2003–2007; largely replaced by modern add-ins.</div></div>
+</div></div>
+
+<div class="grp"><div class="grp-hd" onclick="tog(this)"><span class="grp-hd-title">🛡️ Protect (Developer)</span><span class="grp-badge b-red">2 options</span><span class="chevron">▾</span></div><div class="grp-body">
+<div class="opt"><div class="opt-name">Restrict Editing</div><div class="opt-desc">Same as Review → Restrict Editing. Opens the protection pane to lock down the document to specific editing modes. Essential when distributing forms — lock everything except the content controls users need to fill in.</div></div>
+<div class="opt"><div class="opt-name">Document Template</div><div class="opt-desc">Shows which template the document is attached to (usually Normal.dotm). Attach to a different template to inherit its styles and macros. "Automatically update document styles" option keeps the document in sync with template changes.</div></div>
+</div></div>
+</div><!-- /developer -->
+
+
+<!-- OVERVIEW -->
+<div id="overview" class="sec">
+  <div class="card">
+    <div class="card-title"><i class="ti ti-info-circle" style="font-size:18px" aria-hidden="true"></i> What is MS Word?</div>
+    <div class="card-body">Microsoft Word (<code>winword.exe</code>) is the world's most widely used word processor, part of Microsoft Office / Microsoft 365. First released in 1983, it is a full-featured document creation tool used for everything from letters and reports to academic theses, legal contracts, and books. Access via Start → Microsoft Word, or run <code>winword</code> in the Run dialog.</div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-layout-navbar" style="font-size:18px" aria-hidden="true"></i> The Ribbon — all tabs at a glance</div>
+    <div class="card-body">
+      <strong>File</strong> — Backstage view: New, Open, Save, Print, Share, Export, Options, Account.<br>
+      <strong>Home</strong> — Clipboard, Font, Paragraph, Styles, Editing. Most used tab for day-to-day writing.<br>
+      <strong>Insert</strong> — Pages, Tables, Illustrations, Media, Headers/Footers, Text, Symbols.<br>
+      <strong>Draw</strong> — Inking tools for touch/stylus input (Microsoft 365).<br>
+      <strong>Design</strong> — Document themes, colors, fonts, page background, watermark, page borders.<br>
+      <strong>Layout</strong> — Margins, orientation, size, columns, breaks, line numbers, hyphenation.<br>
+      <strong>References</strong> — TOC, footnotes, citations, captions, index, table of authorities.<br>
+      <strong>Mailings</strong> — Mail merge, envelopes, labels, merge fields, finish & merge.<br>
+      <strong>Review</strong> — Proofing, language, comments, track changes, compare, protect.<br>
+      <strong>View</strong> — Document views, zoom, navigation pane, macros, window arrangement.<br>
+      <strong>Help</strong> — Help resources, feedback, show training.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-eye" style="font-size:18px" aria-hidden="true"></i> Document views</div>
+    <div class="card-body">
+      <strong>Print Layout</strong> — Default. Shows the document exactly as it will print, with margins and page breaks.<br>
+      <strong>Read Mode</strong> — Optimized for reading on screen. Hides editing tools, reflowable columns.<br>
+      <strong>Web Layout</strong> — Shows how document looks as a web page (no page breaks).<br>
+      <strong>Outline</strong> — Structural view of headings. Drag to reorganize entire sections.<br>
+      <strong>Draft</strong> — Fast plain-text view, hides images, headers, footers. Best for long writing sessions.<br>
+      <strong>Focus / Immersive Reader</strong> — Distraction-free views (Microsoft 365 only).
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-settings" style="font-size:18px" aria-hidden="true"></i> AutoSave & AutoRecover</div>
+    <div class="card-body">
+      <strong>AutoSave</strong> (Microsoft 365) — Saves to OneDrive/SharePoint in real time. Toggle in the top-left corner. Enables real-time co-authoring with multiple users simultaneously.<br>
+      <strong>AutoRecover</strong> — Saves a recovery copy every 10 minutes by default. If Word crashes, it offers to restore the file on next open. Set interval: File → Options → Save → AutoRecover interval.<br>
+      <strong>Version History</strong> — With OneDrive: File → Info → Version History to restore any past save.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-check" style="font-size:18px" aria-hidden="true"></i> Can vs Cannot</div>
+    <div class="card-body">
+      <strong>✅ Can do:</strong> Full text formatting, Tables, Images, SmartArt, Charts, Mail merge, Track changes, Comments, Footnotes/Endnotes, TOC, Index, Bibliography, Macros (VBA), Forms, Digital signatures, Watermarks, Multi-column layout, Headers/Footers, Page numbering, Styles, Templates, Real-time collaboration (365), Accessibility checker, Read Aloud, Translate, Compare documents, Protect with password.<br><br>
+      <strong>❌ Not ideal for:</strong> Spreadsheets (use Excel), Presentations (use PowerPoint), Databases (use Access), Desktop publishing with complex layouts (use Publisher/InDesign), Code editing (use VS Code), Very long plain-text files (Notepad is faster).
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i class="ti ti-bulb" style="font-size:18px" aria-hidden="true"></i> Pro tips</div>
+    <div class="card-body">
+      · Always use <strong>Heading styles</strong> — they power TOC, Navigation Pane, and Outline view simultaneously.<br>
+      · Use <strong>Ctrl+Enter</strong> for page breaks, never repeated Enter presses.<br>
+      · <strong>F4</strong> repeats the last action — apply a format to multiple places without Format Painter.<br>
+      · <strong>Ctrl+D</strong> opens the Font dialog for all font options at once.<br>
+      · <strong>Shift+F5</strong> returns the cursor to the last three edit positions — even after reopening the document.<br>
+      · <strong>Alt+F3</strong> creates a Quick Part (AutoText) from selected text for reuse.<br>
+      · Hold <strong>Alt</strong> while dragging to select a vertical column of text (block selection).<br>
+      · <strong>Ctrl+click</strong> selects a sentence. Triple-click selects a paragraph.<br>
+      · Use <strong>Outline view</strong> (View → Outline) to drag entire sections — fastest way to restructure a long document.<br>
+      · <strong>Find & Replace</strong> (Ctrl+H) supports wildcards and special characters — search for paragraph marks (^p), tabs (^t), and more via "More &gt;&gt;" → Special.
+    </div>
+  </div>
+</div>
+
+<div id="extensions" class="sec">
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <table class="ext-table">
+      <thead>
+        <tr>
+          <th>Extension</th>
+          <th>Full Form</th>
+          <th>Use in MS Word</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td><span class="ext-code">.doc</span></td>
+          <td>Document</td>
+          <td>Older Microsoft Word document format used in Word 97–2003. Stores text, formatting, images, and tables. Larger size compared to modern formats.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.docx</span></td>
+          <td>Office Open XML Document</td>
+          <td>Default MS Word format introduced in Word 2007. Smaller file size, faster performance, better compatibility, and supports advanced formatting features.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.docm</span></td>
+          <td>Macro-Enabled Document</td>
+          <td>Used when a Word document contains VBA macros or automation scripts. Helpful for automated tasks and advanced document processing.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.dot</span></td>
+          <td>Document Template</td>
+          <td>Older MS Word template format used to create documents with predefined formatting and layouts.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.dotx</span></td>
+          <td>Office Open XML Template</td>
+          <td>Modern Word template format without macros. Used for resumes, reports, letters, and reusable document designs.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.dotm</span></td>
+          <td>Macro-Enabled Template</td>
+          <td>Template format that supports macros. Useful for creating automated templates with repetitive tasks.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.pdf</span></td>
+          <td>Portable Document Format</td>
+          <td>Used to save Word documents in fixed layout format for sharing and printing. Prevents easy editing and keeps formatting unchanged.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.rtf</span></td>
+          <td>Rich Text Format</td>
+          <td>Cross-platform document format that preserves basic formatting. Compatible with many word processors.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.txt</span></td>
+          <td>Plain Text File</td>
+          <td>Stores only plain text without formatting, images, or styles. Useful for notes and simple text editing.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.odt</span></td>
+          <td>OpenDocument Text</td>
+          <td>Open-source document format used by LibreOffice and OpenOffice. MS Word can open and edit ODT files.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.htm / .html</span></td>
+          <td>HyperText Markup Language</td>
+          <td>Used to save Word documents as web pages for viewing in browsers.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.mht / .mhtml</span></td>
+          <td>MIME HTML</td>
+          <td>Single-file web page format that stores HTML, images, and resources together.</td>
+        </tr>
+
+        <tr>
+          <td><span class="ext-code">.xml</span></td>
+          <td>Extensible Markup Language</td>
+          <td>Used for structured document data and compatibility with other applications.</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title">💡 Which format to choose?</div>
+    <div class="card-body">
+
+      <strong>Best for normal editing:</strong> .DOCX — modern, fast, and most commonly used.<br><br>
+
+      <strong>Best for sharing/printing:</strong> .PDF — keeps formatting fixed on every device.<br><br>
+
+      <strong>Best for templates:</strong> .DOTX — reusable document layouts without macros.<br><br>
+
+      <strong>Best for automation:</strong> .DOCM — supports VBA macros and automation.<br><br>
+
+      <strong>Best for simple text:</strong> .TXT — lightweight plain text without formatting.
+
+    </div>
+  </div>
+</div>
+
+
+</div><!-- .wrap -->
+
+</body>
+</html>

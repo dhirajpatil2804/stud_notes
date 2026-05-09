@@ -265,3 +265,10 @@ footer{
     }
 
 }
+
+.icon img{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+    animation:floatIcon 3s ease-in-out infinite;
+}
